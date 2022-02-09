@@ -1,0 +1,266 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper]{geometry}
+\geometry{left=2.0cm,right=2.0cm,top=2.5cm,bottom=2.5cm}
+
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath,amsfonts,graphicx,amssymb,bm,amsthm}
+\usepackage{algorithm,algorithmicx}
+\usepackage[noend]{algpseudocode}
+\usepackage{fancyhdr}
+
+\usepackage{mathtools}
+\usepackage{hyperref}
+
+\newtheorem{theorem}{{\hskip 1.7em \bf 定理}}
+\newtheorem{lemma}[theorem]{\hskip 1.7em 引理}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{\hskip 1.7em 命题}
+\newtheorem{corollary}[theorem]{\hskip 1.7em 推论}
+\newtheorem{definition}[theorem]{\hskip 1.7em 定义}
+\newtheorem{example}{\hskip 1.7em 例}
+
+\renewcommand{\emph}[1]{\begin{kaishu} #1 \end{kaishu}}
+
+\newenvironment{solution}{{\noindent\hskip 2em \bf 解 \quad}}
+
+
+\renewenvironment{proof}{{\noindent\hskip 2em \bf 证明 \quad}}{\hfill$\qed$\par\vskip1em}
+\newenvironment{proofs}[1]{{\noindent\hskip 2em \bf #1 \quad}}{\hfill$\qed$\par\vskip1em}
+
+\newenvironment{concept}[1]{{\bf #1\quad} \begin{kaishu}} {\end{kaishu}\par}
+
+\newcommand\E{\mathbb{E}}
+
+\begin{document}
+
+    \pagestyle{fancy}
+    \lhead{\kaishu 中国科学院大学}
+    \chead{}
+    \rhead{\kaishu 2021年秋季学期组合数学}
+
+    \begin{center}
+        {\LARGE \bf 组合数学第六讲}\\
+    \end{center}
+        \begin{kaishu}
+            授课时间: 2021年10月4日\quad
+            授课教师: 孙晓明
+            \hfill 记录人: 林盛昊\quad 游昆霖\quad 洪泽润
+        \end{kaishu}
+        
+\section{回顾与拓展（生成函数）} 
+    任给数列 $a_0,a_1,a_2,\ldots$它对应的生成函数为$A(x)=a_0+a_1x+a_2x^2+\ldots$\par 
+    例如，有以下数列和生成函数的对应关系
+\begin{align*}
+    &1,1,1,1,\ldots  \rightarrow 1+x+x^2+x^3+\ldots=\frac{1}{1-x}\\
+    &1,2,3,4,\ldots\rightarrow 1+2x+3x^2+4x^3+\ldots=(\frac{1}{1-x})'=\frac{1}{{(1-x)}^2}\\
+    &0,1,2,3,\ldots\rightarrow 0+x+2x^2+3x^3+\ldots=\frac{x}{{(1-x)}^2}\\
+    &1,2,4,8,\ldots\rightarrow 1+2x+4x^2+8x^3+\ldots=\frac{1}{1-2x}
+\end{align*}    
+
+\begin{example}
+汉诺塔(Tower of Hanoi)    
+\end{example}
+根据递推关系$h(n)=2h(n-1)+1\quad (n\geq 1),$及初始值$h(1)=1,h(0)=0$\par 
+可得对应生成函数有如下形式：
+\begin{align*}
+    H(x)&=\sum_{n\geq0}{h(n)x^n}=0+\sum_{n\geq1}{h(n)x^n}=\sum_{n\geq1}{x^n(2h(n-1)+1)}\\
+	&=2\sum_{n\geq1}{x^nh(n-1)}+\sum_{n\geq1}{x^n}=2x\sum_{m\geq0}{x^mh(m)}+\frac{1}{1-x}-1\\
+	&=2xH(x)+\frac{1}{1-x}-1
+\end{align*}\par 
+移项可得$ (1-2x)H(x)=\frac{1}{1-x}-1$,进一步整理可得生成函数形式：
+\begin{align*}
+     H(x)&=\frac{x}{(1-x)(1-2x)}=\frac{1}{1-2x}-\frac{1}{1-x}\\
+	&=\sum_{n\geq0}{2^nx^n}-\sum_{n\geq0}{x^n}\\
+	&=\sum_{n\geq0}{(2^n-1)x^n}=\sum_{n\geq0}{h(n)x^n}
+\end{align*}\par 
+系数对比即得$h(n)$的通项公式$h(n)=2^n-1$\par 
+事实上，对上述递推式进行推广我们有更一般的情形，如例2.
+\begin{example}
+\begin{align*}
+	\begin{cases}
+            h(n)=2h(n-1)+3^n \\
+            h(1)=3		
+	\end{cases}
+\end{align*}
+\end{example}
+法一：待定系数法\par 
+\begin{solution}
+    解方程$h(n)+\alpha·3^n=2(h(n-1)+\alpha·3^{n-1})$, 得$\alpha=-3$,\par 
+    即得$h(n)-3·3^n=2(h(n-1)-3·3^{n-1})$,\par 
+	另设函数$t(n)=h(n)-3·3^n$即有$t(n)=2t(n-1)$及初始值$t(1)=-6$;\par 
+	由等比数列易得$t(n)=-3\cdot 2^n$;\par 
+	反解即得$h(n)=3(3^n-2^n)$
+\end{solution}
+~\par 
+法二：生成函数\par 
+\begin{solution}
+	该递推关系对应生成函数有如下形式： 
+	\begin{align*}
+	H(x)&=\sum_{n\geq0}{h(n)x^n}=0+\sum_{n\geq1}{x^nh(n)}\\
+	&=\sum_{n\geq1}{x^n(2h(n-1)+3^n)}\\
+	&=2xH(x)+\frac{1}{1-3x}-1	
+	\end{align*}\par 
+移项可得：$(1-2x)H(x)=\frac{3x}{1-3x}$进一步整理可得生成函数形式：
+\begin{equation*}
+H(x)=\frac{3x}{(1-3x)(1-2x)}=\frac{3}{1-3x}-\frac{3}{1-2x}
+\end{equation*}\par 
+系数对比即得$h(n)$的通项公式$ h(n)=3(3^n-2^n)$
+\end{solution}
+\begin{example}
+	\begin{align*}
+\begin{cases}
+f(n)=f(n-1)+g(n-1)+g(n-2) ,f(0)=f(1)=1\\
+g(n)=g(n-1)+2f(n-1)-f(n-2),g(0)=g(1)=1	
+\end{cases}		
+	\end{align*}
+\end{example}
+\begin{solution}
+考察$f(n),g(n)$对应的生成函数$F(n),G(n)$;
+\begin{align*}
+F(x)&=\sum_{n\geq0}{f(n)x^n}=1+x+\sum_{n\geq2}{x^nf(n)}\\
+&=1+x+\sum_{n\geq2}{x^n(f(n-1)+g(n-1)+g(n-2))}\\
+&=1+x+x\sum_{n\geq1}{x^nf(n)}+x\sum_{n\geq1}{x^ng(n)}+x^2\sum_{n\geq0}{x^ng(n)}\\
+&=1+x+x(F(x)-1)+x(G(x)-1)+x^2G(x)
+\end{align*}
+同理可得
+\[G(x)=1+x+x(G(x)-1)+2x(F(x)-1)-x^2F(x)\]
+整理可得
+\begin{align*}
+x-1&=(x-1)F(x)+(x+x^2)G(x)\\
+2x-1&=(x-1)G(x)+(2x-x^2)F(x)
+\end{align*}
+解得
+\begin{align*}
+F(x)&=-\frac{2x^3+x-1}{x^4-x^3-x^2-2x+1}\\
+G(x)&=\frac{x^3-x^2-x+1}{x^4-x^3-x^2-2x+1}
+\end{align*}\par 
+注意到，对于形如$F(x)=\frac{A(x)}{B(x)}$的式子，则可写作部分分式和，从而进行级数展开，$f(n)$即是$x^n$项对应系数.
+\end{solution}
+\begin{example}
+	对于系数为n的递推关系，如：
+\begin{align*}
+	\begin{cases}
+	h(n)=nh(n-1)+3n\\
+	h(1)=0		
+	\end{cases}
+\end{align*}
+	\end{example}
+	\begin{solution}
+	注意到：两边同时除$n!$得
+	\[\frac{h(n)}{n!}=\frac{h(n-1)}{(n-1)!}+\frac{3}{(n-1)!}\]
+	\[\therefore h(n)=3n!\sum_{i=1}^{n}\frac{1}{(i-1)!}\]\par 
+	\end{solution}
+	\begin{example}
+	对于系数为$n^2$的递推关系，如：
+	\begin{align*}
+		\begin{cases}
+		h(n)=n^2h(n-1)+3n\\
+		h(1)=0		
+		\end{cases}
+	\end{align*}
+	\end{example}
+	\begin{solution}
+	同理有：两边同时除$(n!)^2$得
+	\[\frac{h(n)}{(n!)^2}=\frac{h(n-1)}{((n-1)!)^2}+\frac{3n}{(n!)^2}\]
+	\[\therefore h(n)=3n(n!)^2\sum_{i=1}^{n}\frac{1}{(i!)^2}\]
+	\end{solution}
+	一般地，对$h(n)=a_nh(n-1)+b_n$，其中$a_n,b_n$为关于n的多项式，常数或指数等\par 
+	则有以下变化形式：
+	\begin{equation*}
+		\frac{h(n)}{a_n\cdot a_{n-1}\cdots a_1}=\frac{h(n-1)}{a_{n-1}\cdot a_{n-2}\cdots a_1}+\frac{b_n}{a_n\cdot a_{n-1}\cdots a_1}
+	\end{equation*}
+	\section{指数型生成函数}
+	\begin{definition}[指数型生成函数] 
+	\end{definition}
+	对于数列$a_n$,定义其指数型生成函数为$A(n)=a_0+a_{1}x+a_{2}\frac{x^2}{2!}+\cdots+a_n\frac{x^n}{n!}+\cdots$
+	\begin{theorem}[Vandermonde恒等式]\end{theorem}
+	第二节课中我们已经介绍过范德蒙德恒等式
+    		\begin{equation*}
+     		{n+m \choose k}=\sum_{0\le i\le k}{n \choose i}{m \choose k-i}.
+     		\end{equation*}\par 
+		将其扩展到三阶形式：
+		\begin{equation*}
+               {n+m+p \choose l}=\sum_{\substack{i,j\neq 0\\i+j\leq l}}{n \choose i}{m \choose j}{p \choose l-i-j}		
+		\end{equation*}
+		\begin{proof}
+            对$(1+x)^n,(1+x)^m,(1+x)^p$使用广义二项式定理
+            \begin{equation*}
+                (1+x)^n=\sum_{i\ge0}{n \choose i}x^i,\tag{1}
+            \end{equation*}
+            \begin{equation*}
+                (1+x)^m=\sum_{j\ge0}{m \choose j}x^j.\tag{2}
+            \end{equation*}
+            \begin{equation*}
+                (1+x)^p=\sum_{k\ge0}{p \choose k}x^k.\tag{3}
+            \end{equation*}\par 
+            将$(1),(2),(3)$式相乘得：
+            \[(1+x)^{n+m+p} =\sum_{l\ge0}x^{l}\sum_{i,j,k\neq0,i+j+k=l}{n \choose i}{m \choose j}{p \choose k}\notag\]\par 
+			由限制条件可消去变量k得：
+			\[(1+x)^{n+m+p} =\sum_{l\ge0}x^{l}\sum_{i,j\neq 0,i+j\leq l}{n \choose i}{m \choose j}{p \choose l-i-j}\tag{4}\]\par 
+           对$(1+x)^{n+m+p}$使用广义二项式定理可得
+           \begin{equation*}
+               (1+x)^{n+m+p}=\sum_{l\ge0}x^l{n+m+p \choose l}.\tag{5}
+           \end{equation*}\par 
+           对比$(4),(5)$式中$x^k$系数，于是得到
+           \begin{equation*}
+               {n+m+p \choose l}=\sum_{i,j\neq 0，i+j\leq l}{n \choose i}{m \choose j}{p \choose l-i-j}
+           \end{equation*}
+		\end{proof}
+	
+	\begin{example}
+	有红黄蓝三色的共n个球排成一列，其中红球有偶数个，黄球有奇数个，蓝球不做限制，求共有多少种排列方法？
+	\end{example}
+	\begin{solution}
+	设排列方法共有$f(n)$种，假设红球个数为$i\quad (2\mid i)$，黄球个数为$j\quad (2\nmid j)$,则蓝球个数为$n-i-j\quad (i+j\leq n)$\par 
+	由可重排列公式，对确定的i，j有排列数$\frac{n!}{i!j!(n-i-j)!}$;\par 
+	故所有可能情形数为\[f(n)=\sum_{\substack{i,j\\ i+j\leq n,2\mid i,2\nmid j}}\frac{n!}{i!j!(n-i-j)!}\]\par 
+	假设$f(n)$生成函数为F(n),并设以下三个函数A(n)，B(n)和C(n)\par 
+	若不对球的奇偶性做限制，有
+	\[A(n)=\sum_{i\ge0}\frac{x^i}{i!}\quad B(n)=\sum_{j\ge0}\frac{x^j}{j!}\quad C(n)=\sum_{k\ge0}\frac{x^k}{k!}\]\par 
+	考虑$x^n$项系数，则$k$只能取$n-i-j$，由Vandermonde恒等式三阶形式可知：
+	\[\sum_{n\geq 0}[\sum_{\substack{i,j\\i+j\leq n}}\frac{1}{i!j!(n-i-j)!}] x^n=\sum_{i\geq 0}\frac{x^i}{i!}\cdot\sum_{j\geq 0}\frac{x^j}{j!}\cdot\sum_{k\geq 0}\frac{x^{k}}{k!}\]\par 
+	对红黄两球限制奇偶性$2|i,2\nmid j$可得：
+	\[A(n)=1+\frac{x^2}{2!}+\frac{x^4}{4!}+\cdots=\frac{e^x+e^{-x}}{2}\]
+	\[B(n)=x+\frac{x^3}{3!}+\frac{x^5}{5!}+\cdots=\frac{e^x-e^{-x}}{2}\]
+	\[C(n)=\sum_{i\ge0}\frac{x^i}{i!}=1+x+\frac{x^2}{2!}+\cdots=e^x\]\par 
+	考虑红黄两球的奇偶性限制则有：
+	\begin{align*}
+		\sum_{n\geq 0}\frac{f(n)}{n!}x^n
+		&=\sum_{i\geq 0,2\mid i}\frac{x^i}{i!}\cdot\sum_{j\geq 0,2\nmid j}\frac{x^j}{j!}\cdot\sum_{k\geq 0}\frac{x^{k}}{k!}\\
+		&=e^x\frac{e^x+e^{-x}}{2}\frac{e^x-e^{-x}}{2}=\frac{1}{4}(e^{3x}-e^{-x})\\
+		&=\frac{1}{4}\sum_{n\ge0}(\frac{3^n}{n!}-\frac{(-1)^n}{n!})x^n
+	\end{align*}\par 
+	对比系数可得：
+	\[f(n)=\frac{1}{4}(3^n-(-1)^n)\]\par 
+	将其推广到较为复杂的情况，有以下例子。
+	\end{solution}
+	\begin{example}
+		有红黄蓝三色的共n个球排成一列，其中红球有偶数个，黄球个数可被3整除，蓝球不做限制，求共有多少种排列方法？
+		\end{example}
+	\begin{solution}
+		假设排列方法共有$f(n)$种，红球个数为$i\quad (2\mid i)$，黄球个数为$j\quad (3\mid j)$,则蓝球个数为$n-i-j\quad (i+j\leq n)$;
+		因此排列方法数为：
+		\[f(n)=\sum_{\substack{i,j\\ i+j\leq n,2\mid i,3\mid j}}\frac{n!}{i!j!(n-i-j)!}\]
+		考虑红黄球的个数限制，同例6可得下式（其中$w=e^\frac{2\pi i}{3}=-\frac{1}{2}+\frac{\sqrt{3}i}{2}$为三次单位根）：
+		\begin{align*}
+			\sum_{n\geq 0}\frac{f(n)}{n!}x^n
+			&=\sum_{i\geq 0,2\mid i}\frac{x^i}{i!}\cdot\sum_{j\geq 0,3\mid j}\frac{x^j}{j!}\cdot\sum_{k\geq 0}\frac{x^{k}}{(k)!}\\
+			&=e^x\frac{e^x+e^{-x}}{2}\frac{e^x+e^{wx}+e^{w^2x}}{3}\\
+			&=\frac{1}{6}(e^{3x}+e^{(\frac{3+\sqrt{3}i}{2})x}+e^{(\frac{3-\sqrt{3}i}{2})x}+e^x+e^{(\frac{-1+\sqrt{3}i}{2})x}+e^{(\frac{-1-\sqrt{3}i}{2})x})\\
+			&=\frac{1}{6}\sum_{n\geq 0}\frac{1}{n!}(3^n+(\frac{3+\sqrt{3}i}{2})^n+(\frac{3-\sqrt{3}i}{2})^n+1+(\frac{-1+\sqrt{3}i}{2})^n+(\frac{-1-\sqrt{3}i}{2})^n)x^n\\
+		\end{align*}\par
+		对比系数可得：
+		\[f(n)=\frac{1}{6}(3^n+(\frac{3+\sqrt{3}i}{2})^n+(\frac{3-\sqrt{3}i}{2})^n+1+(\frac{-1+\sqrt{3}i}{2})^n+(\frac{-1-\sqrt{3}i}{2})^n)\]\par 
+		注意到：上式中含有虚数单位$i$的式子有两对共轭复数，考虑到共轭复数的n次幂仍互为共轭复数，其和为实部的两倍，可进一步简化得到：
+		\begin{align*}
+			f(n)=\frac{1}{6}(3^n+2(\sqrt{3})^n cos(\frac{n\pi}{6})+1+2cos(\frac{2n\pi}{3}))
+		\end{align*}
+	\end{solution}
+	\section{卡特兰数（Catalan Number）}
+		回顾汉诺塔问题，要求3根柱子，n个盘子（大小顺序为上小下大），规定堆叠过程中大盘子不能放置于小盘子上方，求将所有盘子保持顺序从最左端移到最右端的方法数。\par 
+		卡特兰数初始条件相同，未限制堆叠顺序，但规定了盘子只能单向移动（例如，$I\rightarrow II\rightarrow III$或$I\rightarrow III$）,考察最多能在最右端形成多少种不同的排列。\par 
+		特别的，卡特兰数在数据结构中有重要应用，栈规定数据先进后出，函数调用时进行递归操作时，不能越过节点直接访问子节点。该问题还可表述为多节车厢通过人字形铁轨能形成的排列数。
+	\section{选做题}
+		n*n方格图用1*2或2*1的多米诺牌进行覆盖，总共有多少种可能性？请给出显式表达式或估计。
+	\end{document}	

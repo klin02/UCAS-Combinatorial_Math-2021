@@ -1,0 +1,51 @@
+\documentclass[fontset=windows,11pt]{article}
+\usepackage[a4paper]{geometry}
+\geometry{left=2.0cm,right=2.0cm,top=2.5cm,bottom=2.5cm}
+
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath,amsfonts,graphicx,amssymb,bm,amsthm}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage[noend]{algpseudocode}
+\usepackage{mathtools}
+
+\newtheorem{question}{\hskip 1.7em}
+
+\newenvironment{solution}{{\noindent\hskip 2em \bf 解 \quad}}
+
+\renewenvironment{proof}{{\noindent\hskip 2em \bf 证明 \quad}}{\hfill$\qed$\par\vskip1em}
+
+\begin{document}
+    \begin{center}
+        {\Large \bf 组合数学09.18思考题}\\
+    \end{center}
+    \begin{kaishu}
+        \hfill 提交者：游昆霖 \quad 学号：2020K8009926006
+    \end{kaishu}
+\begin{question}
+    设有$m$个$3$元子集$S_i \subset [n],i = 1, \dots, m$。试问$m$至少需要多大，才一定存在$1 \leq i_1 < i_2 < i_3 \leq m$使得(1)式成立？
+    \begin{equation}
+    S_{i_1} \cap S_{i_2} = S_{i_1} \cap S_{i_3} = S_{i_2} \cap S_{i_3} = S_{i_1} \cap S_{i_2} \cap S_{i_3} \ne \emptyset
+    \tag*{(1)}
+    \end{equation}
+    
+    我们再把选取3个子集的情况扩展到选取$k$个子集的情况，试问$m$至少需要多大，才一定存在$1 \leq i_1 < \dots < i_k \leq m$使得(2)式成立？
+    \begin{equation}
+    S_{i_p} \cap S_{i_q} = \cap_{j=1}^k S_{i_j} \ne \emptyset, \forall i_{p} \ne i_{q}
+    \tag*{(2)}
+    \end{equation}
+\end{question}
+
+    \begin{solution}
+        此处只证明一个使得3元非空花心向日葵存在的集族大小的非平凡下界m：一般地，直接拓展到选取k个子集情况。\par 
+        首先我们取3个两两不交的（k-1）元集合${V_1,V_2,V_3},$将其称为原集族，将该原集族所有集合的元素整体称为一个分段,其长度为$3(k-1)$。\par 
+        然后对该分段，考虑集族$\mathcal{J} =\{T| |T|=3,|T\cap V_i|=1,i=1,2,3\}$,则易知$\mathcal{J}$中有$(k-1)^3$个集合，下证这个集族不含k瓣向日葵。\par 
+        由反证法：假设该集族中含有一个k瓣向日葵，不妨记为$\{T_1,T_2,\cdots,T_k\}$,由集族定义可知，所有花瓣均与$V_1$有一个相交元。因为共有k个花瓣，而$V_1$中仅有k-1个元素，
+        由抽屉原理可知，必存在$T_i,T_j$使得这两个集合同时取得$V_1$中一个元素，记为$v_1$，则由定义有$v_1\in \bigcap_{i=1}^kT_i$,对$V_2,V_3$进行相同操作，则有$\{v_1,v_2,v_3\}\in \bigcap_{i=1}^kT_i$,
+        由原集族中集合的不交性，可知所取元素两两不同。再由花瓣均为3元集合可知，所有花瓣中元素均相同，矛盾。故该集合不含k瓣向日葵。\par 
+        再取另外3个两两不交的（k-1）元集合，构成新分段，与以上过程完全相同，可得取自该分段的$(k-1)^3$个集合中不含k瓣向日葵。如此进行下去，最多可以得到
+        $ \lfloor\frac{n}{3(k-1)}\rfloor$个完整分段，由于所有分段两两不交，取自不同分段的集合无法构成花心非空向日葵。由此我们得到了一个一般的非平凡下界:\par
+        \[m\geq \lfloor\frac{n}{3(k-1)}\rfloor \times (k-1)^3\] 
+        特别地，当花瓣数为3时，有：\[m\geq 8 \times\lfloor\frac{n}{6}\rfloor \]
+    \end{solution}
+\end{document}

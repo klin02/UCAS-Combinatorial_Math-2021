@@ -1,0 +1,152 @@
+\documentclass[fontset=windows,11pt]{article}
+\usepackage[a4paper]{geometry}
+\geometry{left=2.0cm,right=2.0cm,top=2.5cm,bottom=2.5cm}
+
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath,amsfonts,graphicx,amssymb,bm,amsthm}
+\usepackage[noend]{algpseudocode}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\newtheorem{question}{\hskip 1.7em}
+
+\newenvironment{solution}{{\noindent\hskip 2em \bf 解 \quad}}
+
+\renewenvironment{proof}{{\noindent\hskip 2em \bf 证明 \quad}}{\hfill$\qed$\par\vskip1em}
+\newcommand\E{\mathbb{E}}
+
+\begin{document}
+    \begin{center}
+        {\Large \bf 组合数学Homework7}\\
+    \end{center}
+    \begin{kaishu}
+        \hfill 提交者：游昆霖 \quad 学号：2020K8009926006
+    \end{kaishu}
+
+    \begin{question}
+        证明：对任意集合$S\subset\{1,2,\dots,n\}$，只要$|S|\ge\log_2 n + \log_2 \log_2 n + 1$，就必然存在集
+        合$T_1,T_2\subseteq S,T_1\cap T_2=\phi,\sum_{t_1\in T_1}t_1=\sum_{t_2\in T_2}t_2$。
+    \end{question}
+
+    \begin{proof}
+        记$Sum(T)=\sum_{z\in T}z$,则取$T\subseteq S$，有$0\leq Sum(T)\leq n|S|$\par 
+        又因$T\subseteq S$,$T$有$2^{|S|}$种可能；\par 
+        $\because f(x)=2^x-nx-1$，令$f'(x)>0$，则$x>log_2n+log_2log_2e$;\par 
+        $\therefore$当$x\ge\log_2 n + \log_2 \log_2 n + 1$时，有$f'(x)>0$\par 
+        $\therefore 2^{|S|}-n|S|-1\geq nlog_2n-nlog_2log_2n-n-1> 0$(当n$\geq 5$)\par 
+        由抽屉原理，$\exists A\neq B\subseteq S,s.t. Sum(A)=Sum(B)$;\par 
+        取$T_1=A\backslash(A\cap B),T_2=B\backslash(A\cap B)$,即有$T_1,T_2\subseteq S, T_1\cap T_2=\emptyset, Sum(T_1)=Sum(T_2)$\par 
+        当$n=1,2,3,4$时，枚举易证。
+    \end{proof}
+
+    \begin{question}
+        证明：对任意集合$S\subset\{1,2,\dots,64\}$，$|S|=9$，都必然存
+        在集合$T_1,T_2\subset S,T_1\cap T_2 = \emptyset,\sum_{t_1\in T_1}t_1=\sum_{t_2\in T_2}t_2$。
+    \end{question}
+
+    \begin{proof}
+        $\because |S|=9$,记其中元素从小到大依次为$a_1,...,a_9$,若存在$S$的不同子集$T_1,T_2,s.t.Sum(T_1)=Sum(T_2)$,必有
+        $Sum(T_i)\leq a_2+\cdots+a_9$,故对任意可能成立的$T$,有$1\leq Sum(T)\leq 59+\cdots+64=482$，即共482个“抽屉”；\par 
+        又因对$S$，满足$T\subseteq S,Sum(T)\leq a_2+\cdots+a_9$的$T$有$2^{|S|}-2=510$种可能;\par 
+        由抽屉原理，$\exists A,B\subseteq S,s.t.Sum(A)=Sum(B)$\par 
+        取$T_1=A\backslash(A\cap B),T_2=B\backslash(A\cap B)$,即有$T_1,T_2\subseteq S, T_1\cap T_2=\emptyset, Sum(T_1)=Sum(T_2)$
+    \end{proof}
+
+    \begin{question}
+        某人用$64$天读了$100$页书，其中每天读的页数是一正整数，当$p$取哪些值时，一定存在连续的若干天，在
+        这些天此人正好读了$p$页书？对满足条件的$p$给出证明，不满足条件的$p$给出反例。
+    \end{question}
+
+    \begin{solution}
+        记$S_i$表示前$i$天所看页数，则有$1\leq S_1<S_2<\cdots <S_64=100$，以下对p进行分类讨论：\par 
+        (1)当$1\leq p\leq 28$时，若$\exists S_i=p$，成立,否则$\forall i,S_i,S_i+p$均不等于p，且有$1\leq S_1,...,S_{64},S_1+p,...,S_{64}+p\leq 100+p\leq 128$，即“抽屉”小于等于127个，而“苹果”有128个；由抽屉原理
+        ,$\exists i,j\quad s.t.S_j=S_i+p$,即有连续若干天读p页书，成立；\par 
+        (2)当p=29,...,32时，对$S_p$进行分类讨论：\par 
+        $\textcircled{1}$若$S_p\leq 2p-1$,若$\exists 1\leq i\leq p,s.t.S_i\equiv 0$成立，否则$S_1,...S_p$这p个数落在$\{1,p+1\},...,\{p-1,2p-1\}$这p-1个抽屉中，
+        由抽屉原理，必有两数落在同一个抽屉中，即相减为p，成立；\par 
+        $\textcircled{2}$若$S_p\geq 2p$,定义$t=100-3p$，考虑抽屉$\{2p,3p\},\{2p+1,3p+1\},...,\{2p+t,3p+t\},\{2p+t+1\},...,\{3p-1\}$，共$t+1+3p-1-(2p+t)=p$个抽屉,此时
+        此时有$S_p,...,S_{64}$这65-p个数落在p个抽屉里，因为$65-p>p$，由抽屉原理，必有两数落在同一个抽屉中（且不等），即相减为p，成立\par 
+        (3)当p=33,...,36时，可举出反例：$S_1=1,...S_{p-1}=p-1,S_p=p+36,...S_{64}=100$\par 
+        (4)当$37\leq p\leq 64$时，有$S_p\leq 100-(64-p)=36+p$，若$\exists 1\leq i\leq p,s.t. S_i\equiv 0$,由于$2\times p>36+p$，故$S_i=p$，成立；
+        否则模p意义下只有p-1个抽屉，即$\exists i<j, s.t.S_i\equiv S_j(\mod{p})$,由于$2\times p>36+p$，即$S_j-S_i=p$,成立；\par 
+        (5)当$p\geq 65$时，只需使得$S_1,...S_{64}$分取模p意义下${1,...,p-1}$的不同数，则任意二者相减不为p，即给出反例。例如当p=65时，取$S_1=36,S_2=37,...,S_{29}=64,S_{30}=66,...,S_{64}=100$.
+
+    \end{solution}
+
+    \begin{question}
+        平面上每个点都以红蓝两种颜色染色。求证：存在两个相似比为$2011$的相似三角形，每个三角形的三个顶点同色。
+    \end{question}
+
+    \begin{proof}
+        以半径1和2011分别做两个同心圆，分别记作$O_1,O_2$,在$O_1$上任取9点，由抽屉原理，必有5点同色，记为$A,B,C,D,E$，过同心圆圆心和对应点的射线分别交$O_2$于
+        $A',B',C',D',E'$，则由抽屉原理，其中必有三点同色，不妨记为$A',B',C'$，则有$\triangle ABC \sim \triangle A'B'C'$，相似比为2011，且每个三角形三顶点共色。
+    \end{proof}
+
+    \begin{question}
+        证明下列命题：
+        \begin{itemize}
+            \item[a.] $R(3,4) = 9$；
+            \item[b.] $R(4,4)\le 18$。
+        \end{itemize}
+    \end{question}
+
+    \begin{proof}
+        a.首先对完全图任一点所引出的边进行讨论：\par 
+        (1)若存在一个点引出至少4条红边，考虑对应4个点之间边的着色情形：若存在红边，则存在红色的$K_3$;否则全为蓝边，存在蓝色$K_4$\par 
+        (2)若存在一个点引出至少6条蓝边，考虑对应6个点之间边的着色情形：由于$R(3,3)=6$，故6点的边或存在红色$K_3$，或存在蓝色$K_3$，结合原始点，即存在蓝色$K_4$;
+        然后考虑每个点引出3条红边，6条蓝边的$K_9$:\par 
+        由于此时红边总数为$\frac{3\times 9}{2}$，蓝边总数为$\frac{6\times 9}{2}$，均不为整数，即不存在这样的$K_9$，故对任意$K_9$，必存在某一点，或引出至少4条红边，
+        或引出至少6条蓝边，由上述讨论，可得$R(3,4)\leq 9$;
+        且对$K_8$，可给出以下既不存在蓝色$K_3$，也不存在红色$K_4$的反例（与图片对应，互换红蓝，由对称性不改变结论）：
+        \begin{figure}[htbp]
+            \centering
+            \includegraphics[scale=0.8]{ramsey.png}
+        \end{figure}\par 
+        b.利用Ramsey递推不等式，$R(n,m)\leq R(n-1,m)+R(n,m-1)$,有$R(4,4)\leq R(3,4)+R(4,3)=18$.
+    \end{proof}
+
+    \begin{question}
+        证明：给定正整数$d$，存在正整数$N$，使得将$1,2,\dots,N$任意$d$染色时，都存在四个互不相同的正整数$x,y,z,w$，它们颜色相同，且$xy=zw$。
+    \end{question}
+
+    \begin{proof}
+        首先考虑第一象限平面点阵，其中格点$(x,y)$对应正整数$2^x\cdot 3^y$,取矩形宽为d+1，则边上格点必有一对同色；由于总共d中颜色，且每种颜色的一对同色点
+        位置可能性为$\binom{d+1}{2}$，取矩形长为$d\binom{d+1}{2}$,则必存在两列均有一对颜色、位置相同的同色点，将这四个点从左下角顺时针依次记为$A,B,C,D$,
+        ，分别对应$x,z,y,w$,且$A,C$对应坐标为$(i,j),(l,k)$，则有$xy=zw=2^{i+l}3^{j+k}$;故存在满足题意的N，取$N\geq 2^l3^k$即可
+    \end{proof}
+
+    \begin{question}
+        对平面上的整点二染色，证明对任意正整数$m,n$，存在集合$S,T\subset \mathbb{Z}$，满
+        足$|S|\geq m,|T|\geq n$，$S$和$T$中的所有元素分别构成两个等差数列，且网格图$S\times T \subseteq \mathbb{Z}^2$中所有格点同色。
+    \end{question}
+
+    \begin{proof}
+        固定T，观察S，即平行于x轴的一列格点，由范德瓦尔登定理，$\forall m\in \mathbb{Z}$，存在长度为m的同色等差数列，将该数列首尾点中全部点作为一个block，
+        记该block长度为$l$,则$l\leq W(2,m)$，且该block染色共有$2^l$种可能；\par 
+        改变T，对不同T对应的block，由范德瓦尔登定理，$\forall n\in \mathbb{Z}$，存在长度为n的同色等差数列，则该数列首尾点间全部点数量为k，则$k\leq W(2^l,n)$;\par 
+        将同色等差block的纵坐标作为集合T，将block内同色等差数列横坐标作为集合S，则有$S\times T$中所有格点同色。
+    \end{proof}
+
+    \begin{question}
+        我们用概率方法证明以下结论：存在足够大的正整数$n$，使得当$n$个人两两进行一场比赛（没有平局）时，存在一种比赛结果（指任意两人都已分出胜负），
+        使得对任意$4$个人都存在一个人将他们全部打败。下面我们用概率方法证明这个结论，考虑独立等概率随机地选取每场比赛的结果，试回答下列问题：
+        \begin{itemize}
+            \item[a.] 总共$n$个人互相比赛，任取$4$个人，计算不存在一个人将他们全部打败的概率；
+            \item[b.] 证明存在充分大的$n$，此时对任意$4$个人都存在一个人将他们全部打败的概率大于$0$，从而证明该结论。
+        \end{itemize}
+    \end{question}
+
+    \begin{solution}
+        a.取4个人后，考虑剩下的每一个人，无法将4个人全部打败概率为$1-(\frac{1}{2})^4=\frac{15}{16}$,故不存在一个人将4个人全部打败的概率为
+        $(\frac{15}{16})^{n-4}$;\par 
+        b.定义比赛结果为随机变量$K$，若比赛结果对任意4个人存在一个人将他们全部打败，记为“good”，否则记为“bad”。则有$Pr(K good)=1-Pr(K bad)$\par 
+        记对4个人$i_1,i_2,i_3,i_4$，不存在一个人把他们全部打败为事件$A(i_1,i_2,i_3,i_4)$;则由(a)有$A(i_1,i_2,i_3,i_4)=(\frac{15}{16})^{n-4}$：
+        故：
+        \begin{align*}
+            Pr(K bad)&=Pr(\bigcup_{1\leq i_1<\cdots<i_4\leq n}A(i_1,i_2,i_3,i_4))
+                &\leq \sum_{1\leq i_1<\cdots<i_4\leq n}Pr(A(i_1,i_2,i_3,i_4))
+                &=\binom{n}{4}(\frac{15}{16})^{n-4}
+        \end{align*}
+        当n充分大，有$Pr(K bad)<1$，则$Pr(K good)>0$，即存在一种比赛结果，任意四个人都存在一个人将其全部打败。
+
+    \end{solution}
+\end{document}

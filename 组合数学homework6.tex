@@ -1,0 +1,159 @@
+\documentclass[fontset=windows,11pt]{article}
+\usepackage[a4paper]{geometry}
+\geometry{left=2.0cm,right=2.0cm,top=2.5cm,bottom=2.5cm}
+
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath,amsfonts,graphicx,amssymb,bm,amsthm}
+\usepackage[noend]{algpseudocode}
+\usepackage{mathtools}
+\newtheorem{question}{\hskip 1.7em}
+
+\newenvironment{solution}{{\noindent\hskip 2em \bf 解 \quad}}
+
+\renewenvironment{proof}{{\noindent\hskip 2em \bf 证明 \quad}}{\hfill$\qed$\par\vskip1em}
+\newcommand\E{\mathbb{E}}
+
+\begin{document}
+    \begin{center}
+        {\Large \bf 组合数学Homework6}\\
+    \end{center}
+    \begin{kaishu}
+        \hfill 提交者：游昆霖 \quad 学号：2020K8009926006
+    \end{kaishu}
+
+    \begin{question}
+        证明：对于$\forall x \in \mathbb{R}, \forall n\in \mathbb{N}^+$，
+        \begin{align*}
+            \sum_{i=0}^{n-1} \left[x+\frac{i}{n}\right]=[nx].
+        \end{align*}
+    \end{question}
+
+    \begin{proof}
+        对x的小数部分进行讨论:$\forall x \in \mathbb{R},\exists j\in \{0,1,\cdots,n-1\},s.t.\quad \frac{j}{n}\leq \{x\}<\frac{j+1}{n}$;\par 
+        则有$[nx]=[n[x]+n\{x\}]=n[x]+j$;\par 
+        又$\because \forall 0\leq i\leq n-j-1,[x+\frac{i}{n}]=[x]\quad \forall n-j\leq i\leq n-1,[x+\frac{i}{n}]=[x]+1$\par 
+        \begin{align*}
+            \therefore \sum_{i=0}^{n-1} \left[x+\frac{i}{n}\right]&=\sum_{i=0}^{n-j-1} \left[x+\frac{i}{n}\right]+\sum_{i=n-j}^{n-1} \left[x+\frac{i}{n}\right]\\
+            &=(n-j)[x]+j([x]+1)=n[x]+j=[nx]
+        \end{align*}
+    \end{proof}
+
+    \begin{question}
+        利用二次互反律计算下列式子：
+        \begin{itemize}
+            \item[a.] $\left(\frac{60}{107}\right )$；
+            \item[b.] $\left(\frac{56}{139}\right )$。
+        \end{itemize}
+    \end{question}
+
+    \begin{solution}
+        a.\quad $\because (\frac{60}{107})=(\frac{3\times 5\times 2^2}{107})=(\frac{3}{107})\cdot (\frac{5}{107})$\par 
+        由二次互反律有：$(\frac{3}{107})(\frac{107}{3})=(-1)^{\frac{2\times 106}{4}}=-1,(\frac{5}{107})(\frac{107}{5})=(-1)^{\frac{4\times 106}{4}}=1$\par 
+        又$\because (\frac{107}{3})=(\frac{2}{3})=-1,(\frac{107}{5})=(\frac{2}{5})=-1$\par 
+        $\therefore (\frac{3}{107})=1,(\frac{5}{107})=-1$
+        故$(\frac{60}{107})=-1$\par 
+        b. \quad$\because (\frac{56}{139})=(\frac{2\times 7\times 2^2}{139})=(\frac{2}{139})(\frac{7}{139})$\par 
+        由二次互反律有：$(\frac{7}{139})(\frac{139}{7})=(-1)^{\frac{6\times 138}{4}}=-1$\par 
+        又$\because (\frac{139}{7})=(\frac{-1}{7})=-1,(\frac{2}{139})=-1$(此因$139=8\times 17+3$)\par 
+        $\therefore (\frac{7}{139})=1$，故有$(\frac{56}{139})=-1$
+    \end{solution}
+
+    \begin{question}
+        对于正整数$n$，若存在整数$a,b$使得$n=a^2+b^2$，则将$n$称为平方和数。证明如下结论：
+        \begin{itemize}
+            \item[a.] 若平方和数$n$存在$4k+3$型素因子$p$，则$p\mid a,p\mid b$，从而$p^2\mid n$；
+            \item[b.] $n$是平方和数的充要条件为，$n$的每个$4k+3$型素因子只出现偶数次。
+        \end{itemize}
+    \end{question}
+
+    \begin{proof}
+        a. 反证法，假设$p\mid a^2+b^2$且$p\nmid a$,则易知$p\nmid b$,结合p为素数知p与a，p与b互素。
+        \begin{gather*}
+            \because p\mid a^2+b^2 \quad \text{即} a^2\equiv -b^2(mod p)\\
+            \therefore (a^2)^{\frac{p-1}{2}}\equiv (-b^2)^{\frac{p-1}{2}}(mod p)\\
+            \text{由费马小定理，上式化为:} 1\equiv -1(mod p)\\
+            \text{即得：} p\nmid 2\text{，矛盾，假设不成立} 
+        \end{gather*}\par 
+        故有$p\mid a,p\mid b$，即得$p^2\mid a^2,p^2\mid b^2$,从而$p^2\mid n$\par 
+        ~\par 
+        b. 首先有如下两个引理：\par 
+        引理1：4k+1型素数一定可以表示为两个平方数之和，4k+3型素数一定不能表示为两个平方数之和。\par 
+        证：4k+1型素数情形已由课上证明过程给出，下证4k+3型素数情形：\par 
+        由于平方数模4只可能余0或1，故两个平方数之和模4只可能余0、1或2，即4k+3型素数不可能表示为两个平方数之和。\par 
+        引理2：平方和数之积仍为平方和数。\par 
+        证：$\forall a,b,c,d\in \mathbb{Z},\quad (a^2+b^2)(c^2+d^2)=(ac+bd)^2+(ad-bc)^2$\par 
+        由上述两条引理可得：n的所有4k+1型素因子乘积（考虑幂次）为平方和数，记做$r^2+s^2$;\par 
+        则n可表示为$(r^2+s^2)p_1^{a_1}\cdots p_m^{a_m}$，其中$p_1,\cdots,p_m$为4k+3型素数；\par 
+        先证充分性：当$a_1,\cdots,a_m$均为偶数时，显然$n=(p_1^{\frac{a_1}{2}}\cdots p_m^{\frac{a_m}{2}})^2(r^2+s^2)$为平方和数；\par 
+        下证必要性：反证法，考虑n为平方和数，且存在4k+3型素因子p幂次为2t+1；\par 
+        由（a）结论知，$p\mid a,p\mid b,p^2\mid n$，故有$\frac{n}{p^2}=(\frac{a}{p})^2+(\frac{b}{p})^2$\par 
+        此时仍有p为平方和数$\frac{n}{p^2}$的因子，故$\frac{n}{p^4}=(\frac{a}{p^2})^2+(\frac{b}{p^2})^2$\par 
+        如此进行下去，可得$\frac{n}{p^{2t}}=(\frac{a}{p^t})^2+(\frac{b}{p^t})^2$\par 
+        此时有p是平方和数$\frac{n}{p^{2t}}$的因子，但$p^2\nmid \frac{n}{p^{2t}}$，与(a)结论矛盾；\par 
+        故n的所有4k+3型素因子均只出现偶数次。
+
+    \end{proof}
+
+    \begin{question}
+        证明：对任意给定的52个整数，存在两个整数，要么两者的和能被100整除，要么两者的差能被100整除。
+    \end{question}
+
+    \begin{proof}
+        在模100的意义下可以划分51个抽屉，其中第1个抽屉余数为0，第2个抽屉余数为1或99，以此类推，第50个抽屉余数为49或51，第51个抽屉余数为50；\par 
+        由抽屉原理，任意52个整数落在51个抽屉内，则必有两个整数落在同一个抽屉内。\par 
+        若两数余数相同，则表示两数之差能被100整除；若两数余数不同，则表示两数之和能被100整除
+    \end{proof}
+    
+    \begin{question}
+        在边长为1的正方形内任意选择9个点，证明至少有三个点组成的三角形面积小于等于$\frac{1}{8}$。
+    \end{question}
+
+    \begin{proof}
+        连接正方形对边中点，则将该正方形切分为4个边长为$\frac{1}{2}$,面积为$\frac{1}{4}$的小正方形;\par 
+        $\because 9=4\times 2 +1$，由抽屉原理知，9个点中至少有3个点落在同一小正方形内。\par 
+        因为正方形内三个点组成三角形面积必定小于等于正方形面积一半，故至少有三个点组成的三角形面积小于等于$\frac{1}{8}$。
+    \end{proof}
+    
+    \begin{question}
+        证明：在单位圆内任取6个点，必有两点距离小于等于1。
+    \end{question}
+
+    \begin{proof}
+        首先取6个点中的某个点A进行讨论：\par 
+        a.若A为圆心，结论显然成立;\par 
+        b.若A不为圆心，则将圆均分为6个圆心角60°的扇形，且圆心O和A连线为其中一条分割线；此时对剩余5个点位置进行讨论：\par 
+        若剩余5个点均不在A相邻的两个扇形中，则对剩下4个扇形，由抽屉原理知，至少有两个点位于同一个扇形中，易知，同一个扇形中任意两点距离小于等于1，故结论成立；\par 
+        若剩余5个点中存在1个点B在A的2个相邻扇形中，由于A在2个扇形交界处，故必有A、B在同一个扇形中，距离小于等于1，成立；\par 
+        综上，在单位圆内任取6个点，必有两点距离小于等于1。
+    \end{proof}
+
+    \begin{question}
+        将$1,2,\cdots,10$任意圆排列，证明存在相邻的三个数和大于等于18。将18改为19结论是否仍然成立？
+    \end{question} 
+
+    \begin{proof}
+        由圆排列任意性，不妨固定1的位置为$a_1$，记顺时针方向元素依次为$a_2,\cdots,a_{10}$，并记$S_1=a_2+a_3+a_4,S_2=a_5+a_6+a_7,S_3=a_8+a_9+a_{10}$，则有
+        $S_1+S_2+S_3=2+\cdots+10=54$;\par 
+        反证法：若任意3个相邻数的和小于18，则有$S_1,S_2,S_3$均小于18，即$S_1+S_2+S_3<54$，矛盾\par 
+        故任意圆排列均存在相邻三个数之和大于等于18。\par 
+        若将18改成19，结论不成立，事实上易举出反例：以1为起始位置，顺时针方向元素依次为：1,7,8,3,5,9,4,2,10,6;此时对应位置起始的顺时针方向三个相邻数之和依次为：
+        16,18,16,17,18,15,16,18,17,14;此时不存在相邻三个数之和大于等于19.
+    \end{proof}
+
+    \begin{question}
+        证明：任取$7$个自然数，其中必存在$4$个数$a,b,c,d$使得$4\mid a+b+c+d$，且$7$是满足此性质的最小自然数。
+    \end{question}
+
+    \begin{proof}
+        记7个自然数分别为$a_1,\cdots,a_7$,由抽屉原理，其中必有4个数同奇偶，不妨设为$a_1,\cdots,a_4$；\par 
+        对剩余3个数再次应用抽屉原理可得，其中必有2个数同奇偶,不妨设为$a_5,a_6$;\par 
+        则由2个同奇偶的数相加为偶数，可设$a_1+a_2=2b_1,a_3+a_4=2b_2,a_5+a_6=2b_3$;\par 
+        对$b_1,b_2,b_3$应用抽屉原理可得，其中必有2个数同奇偶，不妨设为$b_1,b_2$,则$2\mid (b_1+b_2)$;\par 
+        (注意：此处讨论$b_i$的奇偶性时，不需再依赖$a_1,a_2$和$a_3,a_4$同奇偶，因此上述假设具有一般性；)\par 
+        此时有$a_1+a_2+a_3+a_4=2(b_1+b_2)$,故$4\mid (a_1+a_2+a_3+a_4)$,结论成立；\par 
+        下证：7是满足此性质的最小自然数；\par 
+        当自然数个数为6时，易举出反例，取自然数1,1,1,4,4,4，则任取其中4个数，1出现次数为1或2或3，4个数之和模4的余数为1或2或3，
+        结论不成立；\par 
+        当自然数个数小于6时，只需取上述反例所取6个数的子集即可，过程同上类似，有结论不成立，故7是满足此性质的最小自然数
+    \end{proof}
+\end{document}

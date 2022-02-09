@@ -1,0 +1,257 @@
+\documentclass[fontset=windows,11pt]{article}
+\usepackage[a4paper]{geometry}
+\geometry{left=2.0cm,right=2.0cm,top=2.5cm,bottom=2.5cm}
+
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath,amsfonts,graphicx,amssymb,bm,amsthm}
+\usepackage[noend]{algpseudocode}
+\usepackage{mathtools}
+\newtheorem{question}{\hskip 1.7em}
+
+\newenvironment{solution}{{\noindent\hskip 2em \bf 解 \quad}}
+
+\renewenvironment{proof}{{\noindent\hskip 2em \bf 证明 \quad}}{\hfill$\qed$\par\vskip1em}
+\newcommand\E{\mathbb{E}}
+
+\begin{document}
+    \begin{center}
+        {\Large \bf 组合数学Homework1}\\
+    \end{center}
+    \begin{kaishu}
+        \hfill 提交者：游昆霖 \quad 学号：2020K8009926006
+    \end{kaishu}
+
+    \begin{question}
+        计算$\binom{-2}{m}$,并验证它是$(1+x)^{-2}$展开式的第$m$项的系数。
+    \end{question}
+
+    \begin{solution}
+        \begin{gather*}
+           \binom{-2}{m}=\frac{(-2)^{\underline{m}}}{m!}
+           =\frac{(-2)(-2-1)\cdots(-2-m+1)}{m!}
+           =\frac{(-1)^m(m+1)!}{m!}
+           =(-1)^m(m+1) \\
+           \text{由麦克劳林展开式} \quad f(x)=f(0)+f'(0)x+\frac{f''(0)}{2!}x^2+\cdots
+           +\frac{f^{(n)}}{n!}x^n+\cdots \\
+           \text{故}(1+x)^{-2} \text{展开式第$m$项系数为}\\
+           \frac{[(1+x)^{-2}]^{(m)}}{m!}
+           =\frac{(-2)(-2-1)\cdots(-2-m+1)}{m!}
+           =\frac{(-1)^m(m+1)!}{m!}
+           =(-1)^m(m+1) \\
+           \text{与$\binom{-2}{m}$相等，证毕。}
+        \end{gather*}
+    \end{solution}
+
+    \begin{question}
+        证明：$(1+x)^{\alpha}=\sum\nolimits_{i\geq0}\binom{\alpha}{i}x^i$,
+        其中$0<|x|<1$且$\alpha\in\mathbb{R}.$
+    \end{question}
+
+    \begin{proof}
+        \begin{gather*}
+            \text{由麦克劳林展开式} \quad f(x)=f(0)+f'(0)x+\frac{f''(0)}{2!}x^2+\cdots
+            +\frac{f^{(n)}}{n!}x^n+\cdots \\
+            \text{故}(1+x)^{\alpha} \text{展开式第$i(i>0)$项系数为}\\
+            \frac{{(1+x)^{\alpha}}^{(i)}}{i!}
+            =\frac{\alpha(\alpha-1)\cdots(\alpha-i+1)}{i!}
+            =\frac{\alpha^{\underline{i}}}{i!}=\binom{\alpha}{i}\\
+        \end{gather*}
+        \begin{center}
+        展开式首项系数$1=\binom{\alpha}{0}$\\
+        展开式与求和式x各次方对应系数相等，故两式相等。            
+        \end{center}
+    \end{proof}
+
+    \begin{question}
+        计算下列和式：\\
+        \indent a.$\sum\nolimits_{k\geq0}\binom{n}{3k},\sum\nolimits_{k\geq0}\binom{n}{3k+1},\sum\nolimits_{k\geq0}\binom{n}{3k+2};$\\
+        \indent b.$\sum\nolimits_{k=0}^nk^2\binom{n}{k};$\\
+        \indent c.$\sum\nolimits_{i=0}^n\frac{1}{i+1}\cdot\binom{n}{i};$\\
+        \indent d.$\sum\nolimits_{i=0}^ni^3.$\\    
+    \end{question}
+
+    \begin{solution}(a)
+        \begin{gather*}
+        \because w=e^{i\frac{2\pi}{3}} \text{为三次单位根}\\
+        \therefore 1+w+w^2=0\\
+        \text{由第2题结论}(1+x)^{\alpha}=\sum\nolimits_{i\geq0}\binom{\alpha}{i}x^i 
+        \text{分别取$x=1,w,w^2$即有}\\
+        (1)\quad (1+1)^n=\binom{n}{0}+\binom{n}{1}+\binom{n}{2}+\binom{n}{3}+\cdots;\\
+        (2)\quad (1+w)^n=\binom{n}{0}+\binom{n}{1}w+\binom{n}{2}w^2+\binom{n}{3}+\cdots;\\
+        (3)\quad (1+w^2)^n=\binom{n}{0}+\binom{n}{1}w^2+\binom{n}{2}w+\binom{n}{3}+\cdots;\\
+        \therefore 
+        \sum\nolimits_{k\geq0}\binom{n}{3k}=\frac{1}{3}[(1+1)^n+(1+w)^n+(1+w^2)^n]\\
+        =\frac{1}{3}[2^n+e^{i\frac{n\pi}{3}}+e^{i\frac{-n\pi}{3}}]\\
+        =\begin{cases}
+        \frac{1}{3}(2^n+2) & \text{if } n=6k,\\
+        \frac{1}{3}(2^n+1) & \text{if } n=6k+1 \text{ or } 6k+5,\\ 
+        \frac{1}{3}(2^n-1) & \text{if } n=6k+2 \text{ or } 6k+4,\\ 
+        \frac{1}{3}(2^n-2) & \text{if } n=6k+3.\\ 
+        \end{cases} (k\in\mathbb{R})\\
+        \sum\nolimits_{k\geq0}\binom{n}{3k+1}=\frac{1}{3}[(1+1)^n+w^2(1+w)^n+w(1+w^2)^n]\\
+        =\frac{1}{3}[2^n+e^{i\frac{(n-2)\pi}{3}}+e^{i\frac{-(n-2)\pi}{3}}]\\
+        =\begin{cases}
+        \frac{1}{3}(2^n+2) & \text{if } n=6k+2,\\
+        \frac{1}{3}(2^n+1) & \text{if } n=6k+1 \text{ or } 6k+3,\\ 
+        \frac{1}{3}(2^n-1) & \text{if } n=6k \text{ or } 6k+4,\\ 
+        \frac{1}{3}(2^n-2) & \text{if } n=6k+5.\\ 
+        \end{cases} (k\in\mathbb{R})\\
+        \sum\nolimits_{k\geq0}\binom{n}{3k+2}=\frac{1}{3}[(1+1)^n+w(1+w)^n+w^2(1+w^2)^n]\\
+        =\frac{1}{3}[2^n+e^{i\frac{(n+2)\pi}{3}}+e^{i\frac{-(n+2)\pi}{3}}]\\
+        =\begin{cases}
+        \frac{1}{3}(2^n+2) & \text{if } n=6k+4,\\
+        \frac{1}{3}(2^n+1) & \text{if } n=6k+3 \text{ or } 6k+5,\\ 
+        \frac{1}{3}(2^n-1) & \text{if } n=6k \text{ or } 6k+2,\\ 
+        \frac{1}{3}(2^n-2) & \text{if } n=6k+1.\\ 
+        \end{cases} (k\in\mathbb{R})\\        
+    \end{gather*}
+    \end{solution}
+
+    \begin{solution}(b)（解法一）
+        \begin{gather*}
+            \text{首先，由公式}k\binom{n}{k}=n\binom{n-1}{k-1} \text{可得:}
+            \sum\nolimits_{k=0}^nk\binom{n}{k}=n\sum\nolimits_{k=0}^{n-1}\binom{n-1}{k}=n\cdot 2^{n-1};\tag*{(1)}\\
+            \text{另一方面，}k(k-1)\binom{n}{k}=n(k-1)\binom{n-1}{k-1}=n(n-1)\binom{n-2}{k-2};\\
+            \text{故}\sum\nolimits_{k=0}^nk(k-1)\binom{n}{k}=\sum\nolimits_{k=2}^nn(n-1)\binom{n-2}{k-2}
+            =n(n-1)\sum\nolimits_{k=0}^{n-2}\binom{n-2}{k}=n(n-1)2^{n-2};\tag*{(2)}\\
+            \text{将式(1)、(2)相加即得：}
+            \sum\nolimits_{k=0}^nk^2\binom{n}{k}=n(n+1)2^{n-2}
+        \end{gather*}
+    \end{solution}
+
+    \begin{solution}(b)（解法二）
+        \begin{gather*}
+            \text{对}(1+x)^n=\sum\nolimits_{k=0}^n\binom{n}{k}x^k \text{两侧求一阶、二阶导可得：}\\
+            n(1+x)^{n-1}=\sum\nolimits_{k=0}^nk\binom{n}{k}x^{k-1} \tag*{(1)}\\
+            n(n-1)(1+x)^{n-2}=\sum\nolimits_{k=0}^nk(k-1)\binom{n}{k}x^{k-2} \tag*{(2)}\\
+            \text{式（1）（2）取x=1并相加即得：}\sum\nolimits_{k=0}^nk^2\binom{n}{k}=n(n+1)2^{n-2}\\
+        \end{gather*}
+    \end{solution}
+
+    \begin{solution}(c)（解法一）
+        \begin{gather*}
+            \text{由公式} \frac{1}{i+1}\binom{n}{i}=\frac{1}{n+1}\binom{n+1}{i+1}\text{可得：} \\
+            \sum\nolimits_{i=0}^n\frac{1}{i+1}\binom{n}{i}=\frac{1}{n+1}\sum\nolimits_{i=0}^n\binom{n+1}{i+1}
+            =\frac{1}{n+1}\sum\nolimits_{i=1}^{n+1}\binom{n+1}{i}
+            =\frac{1}{n+1}(2^{n+1}-1)
+        \end{gather*}
+    \end{solution}
+
+    \begin{solution}(c)（解法二）
+        \begin{gather*}
+            \text{对}(1+x)^n=\sum\nolimits_{k=0}^n\binom{n}{i}x^i \text{两侧求积分可得：}\\
+            \frac{1}{1+x}^{n+1}=\sum\nolimits_{k=0}^n\frac{1}{i+1}\binom{n}{i}x^{i+1}\\
+            \text{取上式两侧从0到1的定积分即得：}\sum\nolimits_{i=0}^n\frac{1}{i+1}\cdot\binom{n}{i} =\frac{1}{n+1}(2^{n+1}-1)
+        \end{gather*}
+    \end{solution}
+
+    \begin{solution}(d)（解法一）
+        \begin{gather*}
+        \text{先证平方和公式，由} (i+1)^3-i^3=3i^2+3i+1 \text{，对i=1,2,$\cdots$,n各式累加并整理，即得:}\\
+        \sum\nolimits_{i=0}^ni^2=\frac{1}{3}[(n+1)^3-1]-\frac{n(n+1)}{2}-\frac{n}{3}=\frac{n(n+1)(2n+1)}{6};\\ 
+        \text{再由} (i+1)^4-i^4=4i^3+6i^2+4i+1 \text{，对i=1,2,$\cdots$,n各式累加并整理，即得:}\\
+        \sum\nolimits_{i=0}^ni^3=\frac{1}{4}[(n+1)^4-1]-\frac{3}{2}\sum\nolimits_{i=0}^ni^2-\frac{n(n+1)}{2}-\frac{n}{4}
+        =[\frac{n(n+1)}{2}]^2
+        \end{gather*}
+    \end{solution}
+
+    \begin{solution}(d)（解法二）
+        \begin{gather*}
+            \because i^3=i(i-1)(i-2)+3m(m-1)+m \\
+            \therefore \sum\nolimits_{i=0}^ni^3=6\sum\nolimits_{i=0}^n\binom{m}{3}+6\sum\nolimits_{i=0}^n\binom{m}{2}+\sum\nolimits_{i=0}^n\binom{m}{1};\\
+            \text{由朱世杰恒等式可知：}\sum\nolimits_{i=0}^ni^3=6\binom{n+1}{4}+6\binom{n+1}{3}+\binom{n+1}{2}=[\frac{n(n+1)}{2}]^2\\
+        \end{gather*}
+    \end{solution}
+
+    \begin{question}
+        证明：对任意$k\in \mathbb{N} ,x^k$可以表示为{$x^{\underline{k}},x^{\underline{k-1}},\cdots,x$}的线性组合。
+    \end{question}
+
+    \begin{proof}
+        \begin{center}
+        通过强归纳法证明：显然，当$k=0,1$时成立；\\
+        假设对$1\leq k\leq m$成立，即 $x^m,x^{m-1},\cdots x$均可表示为$x^{\underline{m}},x^{\underline{m-1}},\cdots x$的线性组合；\\
+        当$x=m+1$时，$x^{m+1}-x^{\underline{m+1}}$为关于x的m次整系数多项式，\\
+        由假设，多项式中各项均可表示为$x^{\underline{m}},x^{\underline{m-1}},\cdots x$的线性组合；\\
+        则$x^{m+1}$可表示为$x^{\underline{m+1}},x^{\underline{m}},\cdots x$的线性组合；\\
+        由强归纳法可知：对任意$k\in \mathbb{N} ，x^k$可以表示为{$x^{\underline{k}},x^{\underline{k-1}},\cdots,x$}的线性组合。    
+        \end{center}
+    \end{proof}
+
+    \begin{question}
+        证明：$(\frac{n}{k})^k \leq \binom{n}{k} \leq (\frac{en}{k})^k$，其中，$k$为正整数且$k\leq n$。
+    \end{question}
+
+    \begin{proof}
+        \begin{gather*}
+            \text{先证左边：} \because \binom{n}{k}=\frac{n}{k}\cdot\frac{n-1}{k-1}\cdots\frac{n-k+1}{1};\\
+            \text{对其中第i项均有}\frac{n-i+1}{k-i+1}\geq\frac{n}{k};\\
+            \text{将各式累乘即得左式；}\\
+            \text{再证右边：}\binom{n}{k} \leq \sum\nolimits_{i=0}^k\binom{n}{i}\\
+            \sum\nolimits_{i=0}^k\binom{n}{i}(\frac{k}{n})^k \leq \sum\nolimits_{i=0}^k\binom{n}{i}(\frac{k}{n})^i
+            \leq \sum\nolimits_{i=0}^k\binom{n}{i}(\frac{k}{n})^i =[(1+\frac{k}{n})^{\frac{n}{k}}]^k\leq e^k\\
+            \text{整理即得：} \binom{n}{k} \leq (\frac{en}{k})^k
+        \end{gather*}
+    \end{proof}
+
+    \begin{question}
+        4名男士和8名女士围着一张圆桌就座，如果每两名男士之间恰好有两名女士，一共有多少种就座方法?
+    \end{question}
+    
+    \begin{solution}
+       先考虑男士座位，圆排列共有$3!=6$种可能，每种情形对应的女士座位情况有$8!=40320$种可能，故总共有$3!8!=241920$种可能。
+    \end{solution}
+
+    \begin{question}
+        15个人围着一张圆桌就座，如果B拒绝坐在A旁边，一共有多少种就座方法？如果B只拒绝坐在A右边一共有多少种就座方法？
+    \end{question}
+
+    \begin{solution}
+        首先考虑A和B的位置，有12种可能，每种情形对应的其他人就座情况有$13!=6227020800$种可能，故总共有$12\cdot 13!=74724249600$种可能。
+    \end{solution}
+
+    \begin{question}
+        在一个聚会上有15名男士和20名女士，请问有多少种方式形成10对男女共舞？
+    \end{question}
+
+    \begin{solution}
+        首先考虑参加舞蹈的男士，共有$\binom{15}{10}=3003$种可能，下面考虑每种情形女士情况：\\
+        考虑男士依次从女士中挑选舞伴，共有$P(20,10)=20^{\underline{10}}=670442572800$种可能；\\
+        故总共有$\binom{15}{10}\binom{20}{10}10!$种可能
+    \end{solution}
+
+    \begin{question}
+        确定下面的多重集合的10排列的数目（10排列指包含10个元素的排列）。
+        \[
+            S=\{3\cdot a,4\cdot b,5\cdot c\}=\{a,a,a,b,b,b,b,c,c,c,c,c\}
+        \]
+    \end{question}
+
+    \begin{solution}
+        S的10排列可以被划分为6个部分：
+        \begin{gather*}
+            (1) \{1\cdot a,4\cdot b,5\cdot c\} \text{的10排列数，有} \frac{10!}{1!4!5!}=1260\\
+            (2) \{3\cdot a,2\cdot b,5\cdot c\} \text{的10排列数，有} \frac{10!}{3!2!5!}=2520\\
+            (3) \{3\cdot a,4\cdot b,3\cdot c\} \text{的10排列数，有} \frac{10!}{3!4!3!}=4200\\
+            (4) \{2\cdot a,3\cdot b,5\cdot c\} \text{的10排列数，有} \frac{10!}{2!3!5!}=2520\\
+            (5) \{2\cdot a,4\cdot b,4\cdot c\} \text{的10排列数，有} \frac{10!}{2!4!4!}=3150\\
+            (6) \{3\cdot a,3\cdot b,4\cdot c\} \text{的10排列数，有} \frac{10!}{3!4!4!}=1050\\
+            \text{故S的10排列个数是 }1260+2520+4200+2520+3150+1050=14690 
+        \end{gather*}
+    \end{solution}
+
+    \begin{question}
+        考虑大小为2n的多重集合{$n\cdot a,1,2,3,\cdots,n$}，确定它的n组合数。\\
+        注：对于多重集合$S$，其n组合是$S$中的n个对象的无序选择。例如对于多重集合$S=\{2\cdot a,b,3\cdot c\}$，
+        其3组合是$\{2\cdot a,b\},\{2\cdot a,c\},\{a,b,c\},\{a,2\cdot c\},\{b,2\cdot c\},\{3\cdot c\}$。
+    \end{question}
+
+    \begin{solution}
+        \begin{center}
+        $\because$多重集合中有n个相同元素$a$，其n组合可划分为n+1个部分，\\
+        分别对应$a$个数为$0,1,\cdots,n$的情况；\\
+        $\therefore$ n组合数为$\sum\nolimits_{k=0}^n\binom{n}{k}=2^n$     
+        \end{center}
+    \end{solution}
+
+\end{document}

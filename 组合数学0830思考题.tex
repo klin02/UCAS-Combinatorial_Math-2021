@@ -1,0 +1,67 @@
+\documentclass[fontset=windows,11pt]{article}
+\usepackage[a4paper]{geometry}
+\geometry{left=2.0cm,right=2.0cm,top=2.5cm,bottom=2.5cm}
+
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath,amsfonts,graphicx,amssymb,bm,amsthm}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage[noend]{algpseudocode}
+\usepackage{mathtools}
+
+\newtheorem{question}{\hskip 1.7em}
+
+\newenvironment{solution}{{\noindent\hskip 2em \bf 解 \quad}}
+
+\renewenvironment{proof}{{\noindent\hskip 2em \bf 证明 \quad}}{\hfill$\qed$\par\vskip1em}
+    \begin{document}
+        \begin{center}
+            {\Large \bf 组合数学08.30思考题}\\
+        \end{center}
+        \begin{kaishu}
+            \hfill 提交者：游昆霖 \quad 学号：2020K8009926006
+        \end{kaishu}
+        \begin{question}
+        现有 A,B两人分一个蛋糕，A和B对这个蛋糕的不同部分有自己的偏好。试问能否将这个蛋糕
+        分成两份，A,B各拿一份，并且要求 A 拿到的蛋糕在他自己的偏好下不少于整个蛋糕的$\frac{\sqrt{5}-1}{2}$,
+        B拿到的部分在他自己的偏好下不少于整个蛋糕的$\frac{3-\sqrt{5}}{2}$。
+
+
+            问题形式化表述如下：现有非负整数$f_1.f_2$满足
+            \[\int_0^1f_i(x)dx=1(i=1,2)\]
+        是否存在区间[0,1]的子集A,B使得$A\bigcup B=[0,1],A\bigcap B=\varnothing$且\\
+            \[ \int_Af_1(x)dx \geq \frac{\sqrt{5}-1}{2}, \quad \int_Bf_2(x)dx \geq \frac{3-\sqrt{5}}{2} ?\]
+        试为这两人的要求设计一个算法，或证明划分不存在。
+        \end{question}
+
+        \begin{solution}
+            先证：任意无理数蛋糕分割比可获得对应分割。\par
+            假设A、B所期望获得蛋糕比例分别为$d_1,d_2$，且$d_1+d_2=1$，不失一般性，可设$d_1<d_2$；\\
+            首先由A切自己认为价值$d_1$部分，记为X,剩余部分记为$I\backslash X$,考察X对B的价值，记为$f_2(B)$\par
+            情形（1）：若$f_2(B)\leq d_1$,则$f_2(I\backslash X)\geq d_2$,此时只需A取X，B取剩余部分即可；\par
+            情形（2）：若$f_2(B)=d_1+\varepsilon,\varepsilon>0$，则B拿走全部X，并对$I\backslash X$进一步分配；\par
+            \quad 令A拿走其中$d_1+\frac{d_1^2}{d_2}$,\quad B拿走其中$d_2-\frac{d_1(d_1+\varepsilon)}{d_2-\varepsilon}$;（此处将$I\backslash X$视作1）\par
+            \quad 一方面：由不等式$\frac{d_1^2}{d_2}<\frac{d_1(d_1+\varepsilon)}{d_2-\varepsilon}$对$I\backslash X$ 有$d_1+\frac{d_1^2}{d_2}+d_2-\frac{d_1(d_1+\varepsilon)}{d_2-\varepsilon} < 1$;\par
+            \quad 对两部分均添加小量，即可转化为有理数$R_1,R_2$，且$R_1+R_2=1$,对有理数蛋糕分割比，可取得整数$Z_1,Z_2\quad s.t.R_1:R_2=Z_1:Z_2$;则由B按自身价值评估将$I\backslash X$均分为$Z_1+Z_2$份，而由A先取得其中对自己价值较大的$Z_1$份，B取余下蛋糕即可；\par 
+            \quad 另一方面：对整个蛋糕，若不考虑将无理数比化为有理数比所添加小量，A所取得价值为$d_2*(d_1+\frac{d_1^2}{d_2})=d_1$，B所取得价值为$d_1+\varepsilon+(1-d_1-\varepsilon)*(d_2-\frac{d_1(d_1+\varepsilon)}{d_2-\varepsilon})=d_2$，考虑小量即有A、B
+            所取的蛋糕均超过最低预期，故对应分割存在。\par
+            ~\par
+            由上述证明过程可得到一般的无理数比蛋糕分割算法如下：
+            \begin{algorithm}
+                \caption{Cake Cutting by irrational ratio}
+            \textbf{输入}：$f_1(x)\quad f_2(x) \backslash\backslash$ A和B对应的蛋糕函数 \\
+            \textbf{输出}：n 满足对应无理数比的分割蛋糕方法\\
+            \textbf{Function} Divide（ ）\par 
+                \qquad $\exists x_0\quad s.t. \int_0^{x_0}f_1(x)=d_1,\quad \varepsilon=\int_0^{x_0}f_2(x)-d_1$\par 
+                \qquad \textbf{if} $\varepsilon \leq 0$ \textbf{then return} $x_0\quad  \backslash\backslash$ A取$0-x_0$部分，B取$x_0-1$部分；\par
+                \qquad \qquad \textbf{else} $\exists z_1,z_2\in \mathbb{N} \quad s.t.\frac{z_1}{z_1+z_2}>d_1+\frac{d_1^2}{d_2}\quad \frac{z_2}{z_1+z_2}>d_2-\frac{d_1(d_1+\varepsilon)}{d_2-\varepsilon}$\par 
+                \qquad \qquad \qquad$\exists x_0<x_1<\cdots<x_{z_1+z_2}=1\quad s.t. \int_{x_0}^{x_1}f_2(x)=\cdots=\int_{x_{z_1+z_2-1}}^{x_{z_1+z_2}}f_2(x)=\frac{d_2}{z_1+z_2}$\par 
+                \qquad \qquad \qquad $\exists x_0<x_{i_1}<\cdots<x_{i_{z_1}}\leq 1,A=\bigcup_{k=1}^{z_1}[x_{i_k-1},x_{i_k}]\quad s.t.\int_Af_1(x)\geq d_1$\par
+                \qquad \qquad \qquad \textbf{return} $x_{i_1-1},x_{i_1},\cdots,x_{i_{z_1}}\quad \backslash \backslash$ A取$\bigcup_{k=1}^{z_1}[x_{i_k-1},x_{i_k}]$部分，B取剩余部分；\par 
+                \qquad \textbf{end if}\\
+                \textbf{end Function}
+            \end{algorithm}\par
+        注：下列算法对应无理数为$d_1,d_2$，且满足$d_1+d_2=1$，该算法为简化情形，不失一般性地令$d_1<d_2$,
+        对于黄金分割比切蛋糕问题，只需令$d_1=\frac{3-\sqrt{5}}{2},\quad d_2=\frac{\sqrt{5}-1}{2}$即可。
+        \end{solution}
+\end{document}

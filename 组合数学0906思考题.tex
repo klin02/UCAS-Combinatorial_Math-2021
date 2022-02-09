@@ -1,0 +1,64 @@
+\documentclass[fontset=windows,11pt]{article}
+\usepackage[a4paper]{geometry}
+\geometry{left=2.0cm,right=2.0cm,top=2.5cm,bottom=2.5cm}
+
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath,amsfonts,graphicx,amssymb,bm,amsthm}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage[noend]{algpseudocode}
+\usepackage{mathtools}
+
+\newtheorem{question}{\hskip 1.7em}
+
+\newenvironment{solution}{{\noindent\hskip 2em \bf 解 \quad}}
+
+\renewenvironment{proof}{{\noindent\hskip 2em \bf 证明 \quad}}{\hfill$\qed$\par\vskip1em}
+\begin{document}
+    \begin{center}
+        {\Large \bf 组合数学09.06思考题}\\
+    \end{center}
+    \begin{kaishu}
+        \hfill 提交者：游昆霖 \quad 学号：2020K8009926006
+    \end{kaishu}
+    \begin{question}
+        一个定义在$\mathbb{R}^n$上的多项式$P(x_1,x_2,\cdots,x_n)$，若当$x_1,x_2,\cdots,x_n$
+        均为整数时，$P(x_1,x_2,\cdots,x_n)$的值总是整数，则称这样的多项式为整值多项式。课上给出了
+        $n=1$时整值多项式的刻画：\par
+        \textbf{定理1.} d次多项式$P(x)$是整值多项式的充要条件是存在$b_0,b_1,\cdots,b_d\in \mathbb{Z}$，
+        使得\[ P(x)=b_d\binom{x}{d}+\cdots+b_1\binom{x}{1}+b_0\binom{x}{0} \]\par
+        对$n=2$的整值多项式是否也有类似的刻画？一般的n呢？
+    \end{question}
+
+    \begin{solution}
+        先证引理：$\{\binom{x}{i}\binom{y}{j}\}_{\substack{i\geq 0,j\geq 0,\\i+j\leq d}}$为向量空间$<x^iy^j>_{\substack{i\geq 0,j\geq 0,\\i+j\leq d}}$的一组基。\par
+        一方面：由课上引理可得$x^i$可表示为$\binom{x}{0},\binom{x}{1},\cdots,\binom{x}{i}$的线性组合，对$y^j$同理有相似表示；\par
+        \quad 故有$x^iy^j=(\sum\nolimits_0^ia_{i,k}\binom{x}{k})(\sum\nolimits_0^jb_{j,t}\binom{y}{j})=\sum\nolimits_{0\leq k\leq i,0\leq t\leq j}a_{i,k}b_{j,t}\binom{x}{k}\binom{y}{t}$;\par
+        另一方面：由于两向量组元素个数相等，只需证$\{\binom{x}{i}\binom{y}{j}\}_{\substack{i\geq 0,j\geq 0,\\i+j\leq d}}$线性无关；\par
+        \quad 对其中元素$x^iy^j$，将其表示为其余向量的线性组合，注意到变量次数大于该式的项系数必为0，则有$\binom{x}{i}\binom{y}{j}=\sum\nolimits_{\substack{0\leq k\leq i,\\0\leq t\leq j}}f_{i,k}g_{j,t}\binom{x}{k}\binom{y}{t}$\par 
+        \quad 分别取$(x,y)=(0,0),(1,0),\cdots,(i,0),\cdots,(0,j),\cdots,(i,j)$代入得到$i*j$个式子，\par 
+        \quad 联立即可得到上式各项系数均为0;\par
+        \quad 注意到i,j任意性，即可得$\{\binom{x}{i}\binom{y}{j}\}_{\substack{i\geq 0,j\geq 0,\\i+j\leq d}}$线性无关；\par
+        \quad 引理证毕。\par 
+        ~\par 
+        由引理，可得n=2的d次整值多项式$P(x,y)$在$\{\binom{x}{i}\binom{y}{j}\}_{\substack{i\geq 0,j\geq 0,\\i+j\leq d}}$
+        上有唯一表示：\[P(x,y)=\sum\nolimits_{\substack{i\geq 0,j\geq 0,\\i+j\leq d}}c_{i,j}\binom{x}{i}\binom{y}{j}\];\par 
+        一方面：当$c_{i,j}(i\geq 0,j\geq 0,i+j\leq d)$均为整数时，显然有$P(x,y)$为整值多项式；\par 
+        另一方面：若$P(x,y)$为整值多项式，应用拉格朗日插值思路求其系数,对$m=i+j$进行归纳：\par 
+        当$m=0$时，取$(x,y)=(0,0)$,有$c_{0,0}\in \mathbb{Z}$;\par 
+        当$m=1$时，取$(x,y)=(0,1)$,有$c_{0,1}\binom{1}{1}+c_{0,0}\in \mathbb{Z} \therefore c_{0,1}\in \mathbb{Z}$ 同理有 $c_{1,0}\in \mathbb{Z}$\par 
+        假设当$m\leq r$时，均有$c_{i,j}(i\geq 0,j\geq 0,i+j=m)$为整数；\par 
+        则当$m=r+1$时，$\forall c_{k,t}(k+t=r+1)$,不妨设$t\neq 0$,取$(x,y)=(k,t)$，则有
+        \[c_{k,t}\binom{k}{k}\binom{t}{t}+\sum\nolimits_{\substack{i\geq 0,j\geq 0\\i+j\leq r}}c_{i,j}\binom{k}{i}\binom{t}{j}\in \mathbb{Z} \]\par 
+        由归纳假设$c_{i,j}\in \mathbb{Z}(i\geq 0,j\geq 0,i+j\leq r)均为整数$故有$c_{k,t}\in \mathbb{Z}$\par 
+        结合k,t的任意性，有$c_{i,j}(i\geq 0,j\geq 0,i+j=r+1)$为整数\par 
+        归纳则有$c_{i,j}\in \mathbb{Z}(i\geq 0,j\geq 0,i+j\leq d)均为整数$;\par 
+        故n=2时整值多项式有刻画：d次多项式$P(x,y)$为整值多项式充要条件是
+        \[\exists c_{i,j}\in \mathbb{Z}(i\geq 0,j\geq 0,i+j\leq d)\quad s.t.P(x,y)=\sum\nolimits_{\substack{i\geq 0,j\geq 0,\\i+j\leq d}}c_{i,j}\binom{x}{i}\binom{y}{j}\]
+        ~\par 
+        \textbf{推论：}对一般的n，证明方法与n=2情况类似，同样有以下刻画：\par 
+        d次多项式$P(x_1,x_2,\cdots,x_n)$为整值多项式的充要条件是：
+        \[ \exists a_{i_1,\cdots,i_n}\in \mathbb{Z}(i_1\geq 0,\cdots,i_n\geq 0,i_1+\cdots+i_n\leq d) \]
+        \[ s.t.P(x_1,x_2,\cdots,x_n)=\sum_{\substack{i_1\geq 0,\cdots,i_n\geq 0\\i_1+\cdots+i_n\leq d}}a_{i_1,\cdots,i_n}\binom{x_1}{i_1}\cdots\binom{x_n}{i_n} \]
+    \end{solution}
+\end{document}    

@@ -1,0 +1,156 @@
+\documentclass[fontset=windows,11pt]{article}
+\usepackage[a4paper]{geometry}
+\geometry{left=2.0cm,right=2.0cm,top=2.5cm,bottom=2.5cm}
+
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath,amsfonts,graphicx,amssymb,bm,amsthm}
+\usepackage[noend]{algpseudocode}
+\usepackage{mathtools}
+\newtheorem{question}{\hskip 1.7em}
+
+\newenvironment{solution}{{\noindent\hskip 2em \bf 解 \quad}}
+
+\renewenvironment{proof}{{\noindent\hskip 2em \bf 证明 \quad}}{\hfill$\qed$\par\vskip1em}
+\newcommand\E{\mathbb{E}}
+
+\begin{document}
+    \begin{center}
+        {\Large \bf 组合数学Homework5}\\
+    \end{center}
+    \begin{kaishu}
+        \hfill 提交者：游昆霖 \quad 学号：2020K8009926006
+    \end{kaishu}
+
+    \begin{question}
+        设$p(n)$表示分拆数，试比较$p(n)-p(n-1)$和$p(n-1)-p(n-2)$的大小。
+    \end{question}
+
+    \begin{solution}
+        由于$p(n)-p(n-1)$表示n不含1的分拆数，故有：
+    \begin{align*}
+        p(n)-p(n-1)&=\sum_{m=1}^{[\frac{n}{2}]}p(n-m,m)\\
+        p(n-1)-p(n-2)&=\sum_{m=1}^{[\frac{n-1}{2}]}p(n-1-m,m)
+    \end{align*}\par 
+    二者相减则有：
+    \begin{align*}
+        [p(n)-p(n-1)]-[p(n-1)-p(n-2)]\geq \sum_{m=1}^{[\frac{n-1}{2}]}[p(n-m,m)-p(n-1-m,m)]\qquad\text{(1)}
+    \end{align*}\par 
+    注意到，任意一个n-1-m的m分拆，只需在最大的分拆部分（即$x_{1}$）处加1，即得到了一个n-m的m分拆，因此有$p(n-m,m)\geq p(n-1-m,m)$;\par 
+    求和即得$p(n)-p(n-1)\geq p(n-1)-p(n-2)\quad n\geq 3$
+    \end{solution}
+
+    \begin{question}
+        设$p(n,m)$表示恰好有$m$个正整数组成的$n$的分拆个数，$q(n,m)$表示$n$的分拆中最大的数恰好是$m$的分拆个数。
+        \begin{itemize}
+            \item[a.] 证明：$p(n,m)=q(n,m)$；
+            \item[b.] 证明：$P(x)=\sum_{n\ge 0}p(n,m)x^n=x^m\prod_{k=1}^m\frac{1}{1-x^k}$。提示：利用上一问的结论。
+        \end{itemize}
+    \end{question}
+
+    \begin{proof}
+        a.考虑Ferrers diagram，由于恰好有$m$个正整数组成的$n$的分拆与格子数为n，列数为m的Ferrers diagram一一对应，自底向上，将第k行作为n的分拆中第k个数，则每个Ferrers diagram均与
+        $n$的分拆中最大的数恰好是$m$的分拆一一对应。故有$p(n,m)=q(n,m)$，事实上，左端一个分拆与右端一个分拆一一对应，其Ferrers diagram互相共轭。\par 
+        b. 考虑将分拆表示为坐标格式，$k_i$表示分拆中i出现次数，则有:
+        \begin{align*}
+            q(n,m)=\#\{(k_1,k_2,\cdots,k_m)|1\cdot k_1+2\cdot k_2 +\cdots+m\cdot k_m=n,k_i\geq 0,i=1,2,\cdots,m-1,k_m>0\}
+        \end{align*}
+        由（a）结论有$p(n,m)=q(n,m)$，故
+        \begin{align*}
+            P(x)&=\sum_{n\geq 0}p(n,m)x^n=\sum_{n\geq 0}q(n,m)x^n\\
+                &=(1+x+x^2+\cdots+x^{k_1}+\cdots)\times(1+x^2+x^4+\cdots+x^{2k_2}+\cdots)\times\cdots\\
+                &\quad \times(x^m+x^{2m}+\cdots+x^{mk_m}+\cdots)\\
+                &=x^m\prod_{k=1}^m\frac{1}{1-x^k}
+        \end{align*}
+    \end{proof}
+
+    \begin{question}
+        证明：$\left\lceil\frac{n}{m}\right\rceil=\left\lfloor\frac{n+m-1}{m}\right\rfloor$。
+    \end{question}
+
+    \begin{proof}
+        首先有n,m均为正整数，进行分类讨论如下：\par 
+        a.若$m|n$，即$n=km,k\in\mathbb{N}$， 等式左边$=k$，等式右边$=\rfloor k+1-\frac{1}{m}\lfloor=k$,成立；\par 
+        b.若$m\nmid m$,即$n=km+t,k,t\in\mathbb{N}$则有：
+        \begin{align*}
+            \left\lceil\frac{n}{m}\right\rceil-\left\lfloor\frac{n+m-1}{m}\right\rfloor
+            &=\frac{n}{m}-\{\frac{t}{m}\}+1-\frac{n+m-1}{m}+\{\frac{t-1}{m}\} \\
+            &=-\frac{t}{m}+\frac{1}{m}+\frac{t-1}{m}=0   
+        \end{align*}\par 
+        综上可得：等式恒成立。
+    \end{proof}
+
+    \begin{question}
+        证明：$\left\lfloor x\right\rfloor+\left\lfloor x+\frac{1}{2}\right\rfloor=\left\lfloor 2x\right\rfloor$。
+    \end{question}
+
+    \begin{proof}
+        设$\lfloor x\rfloor=k$，进行分类讨论如下：\par 
+        a.若$k\leq x< k+\frac{1}{2}$，则有$k+\frac{1}{2}\leq x< k+1\quad 2k\leq 2x< 2k+1$\par 
+        故等式左边$=k+k=2k$，等式右边$=2k$,成立\par 
+        b.若$k+\frac{1}{2}\leq x< k+1$，则有$k+1\leq x< k+\frac{3}{2}\quad 2k+1\leq 2x< 2k+2$\par 
+        故等式左边$=k+k+1=2k+1$，等式右边$=2k+1$,成立\par
+        综上可得：等式恒成立。
+    \end{proof}
+
+    \begin{question}
+        试计算$2^{2021} \mod 11$。
+    \end{question}
+
+    \begin{solution}
+        由于2和11互素，由费马小定理可得：$2^{10}\equiv 1(mod 11)$;
+        因$2021=202*10+1$,故$2^{2021}\equiv 1\times 2^{1}\equiv 2(mod 11)$;
+    \end{solution}
+
+    \begin{question}
+        证明：任给$m,n\in\mathbb{N}$，都有$m!n!(m+n)! | (2m)!(2n)!$。
+    \end{question}
+
+    \begin{proof}
+        记$\alpha_p(n):=max\{s|p^s|n\}$,则$\alpha_p(n)=[\frac{n}{p}]+[\frac{n}{p^2}]+\cdots+[\frac{n}{p^s}]$,\par 
+        且有$\frac{(2m)!(2n)!}{m!n!(m+n)!}=\prod_{p\quad prime}p^{\alpha_p(2m)+\alpha_p(2n)-\alpha_p(m)-\alpha_p(n)-\alpha_p(m+n)}$\par 
+        首先证明引理：$[2a]+[2b]\geq [a]+[b]+[a+b]$\par 
+        设$a=m+x,b=n+y,m,n\in \mathbb{Z}, 0\leq x,y<1$,则$[2a]+[2b]=2m+2n+[2x]+[2y],\quad [a]+[b]+[a+b]=2m+2n+[x+y]$\par 
+        $\textcircled{1}$当x和y均小于$\frac{1}{2}$时，有$[2x]+[2y]=[x+y]=0$,不等式成立；\par 
+        $\textcircled{2}$当x或y有一者大于等于$\frac{1}{2}$时，有$[2x]+[2y]\geq [x]+[y]+1\geq [x+y]$\par 
+        综上，引理证毕。\par 
+        应用引理立得：$\forall p(prime)\forall r\in \mathbb{N}, [\frac{2m}{p^r}]+[\frac{2n}{p^r}]-[\frac{m}{p^r}]-[\frac{n}{p^r}]-[\frac{m+n}{p^r}]\geq 0$\par 
+        对r从1到无穷求和可得：$\alpha_p(2m)+\alpha_p(2n)-\alpha_p(m)-\alpha_p(n)-\alpha_p(m+n)$\par 
+        由p任意性，则有$\frac{(2m)!(2n)!}{m!n!(m+n)!}$的素数分解式中，素因子指数均非负，也即$\frac{(2m)!(2n)!}{m!n!(m+n)!}$为整数。\par 
+        注记：事实上$\frac{(2m)!(2n)!}{m!n!(m+n)!}$为二元卡特兰数$C(m,n)$,由组合意义显然为整数。
+    \end{proof}
+
+    \begin{question}
+        利用二次互反律，计算Legendre符号：$\left(\frac{20}{67}\right )$。
+    \end{question}
+ 
+    \begin{solution}
+        $(\frac{20}{67})=(\frac{5\times 2^2}{67})=(\frac{5}{67})$\par 
+        由二次互反律有：$(\frac{5}{67})(\frac{67}{5})=(-1)^{\frac{4\times 66}{4}}=1$\par 
+        又因为$(\frac{67}{5})=(\frac{2}{5})=-1$(此因$5=8\times 1-3$);\par 
+        故$(\frac{5}{67})=-1$
+    \end{solution}
+
+    \begin{question}
+        设$p$是奇素数，计算Legendre符号：$\left(\frac{3}{p}\right )$。
+    \end{question}
+
+    \begin{solution}
+        \begin{equation*}
+        \text{由二次互反律有:}(\frac{3}{p})(\frac{p}{3})=(-1)^{\frac{p-1}{2}}=\begin{cases}
+            1,\quad p=4k+1\\
+            -1,\quad p=4k+3\\
+        \end{cases}
+    \end{equation*}
+    \begin{align*}
+        \text{又}\because (\frac{p}{3})&=\begin{cases}
+            (\frac{1}{3})=1,\quad p=3t+1\\
+            (\frac{2}{3})=-1,\quad p=3t+2\\
+        \end{cases}\\
+        \therefore (\frac{3}{p})&=\begin{cases}
+            1,\quad p=12k\pm 1\\
+            -1,\quad p=12k\pm 5\\
+        \end{cases} \text{p为奇素数}
+    \end{align*}      
+    \end{solution}
+
+\end{document}

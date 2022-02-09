@@ -1,0 +1,240 @@
+\documentclass[fontset=windows,11pt]{article}
+\usepackage[a4paper]{geometry}
+\geometry{left=2.0cm,right=2.0cm,top=2.5cm,bottom=2.5cm}
+
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath,amsfonts,graphicx,amssymb,bm,amsthm}
+\usepackage[noend]{algpseudocode}
+\usepackage{mathtools}
+\newtheorem{question}{\hskip 1.7em}
+
+\newenvironment{solution}{{\noindent\hskip 2em \bf 解 \quad}}
+
+\renewenvironment{proof}{{\noindent\hskip 2em \bf 证明 \quad}}{\hfill$\qed$\par\vskip1em}
+\newcommand\E{\mathbb{E}}
+
+\begin{document}
+    \begin{center}
+        {\Large \bf 组合数学Homework2}\\
+    \end{center}
+    \begin{kaishu}
+        \hfill 提交者：游昆霖 \quad 学号：2020K8009926006
+    \end{kaishu}
+
+    \begin{question}
+        9对夫妻参加宴会，围成一桌坐下，要求每对夫妻相邻，请问有多少种方案？
+    \end{question}
+
+    \begin{solution}
+        首先将每对夫妻当做一个整体进行排列，相当于9元素圆排列，有$8!$种可能，再考虑对每对夫妻内部排序均有2种可能，故总共有$8!*2^9=20643840$种方案。
+    \end{solution}
+
+    \begin{question}
+        根据《双色球规则》，双色球投注区分为红色球号码区和蓝色球号码区，红色球号码区由
+        1-33 共三十三个号码组成，蓝色球号码区由 1-16 共十六个号码组成。投注时选择 6 个红色球号
+        码和 1 个蓝色球号码组成一注进行单式投注。开奖时先摇出 6 个红色球号码，再摇出 1 个蓝色
+        球号码。四等奖的中奖规则为投注号码与当期开奖号码中的任意 5 个红色球号码相同，或与任
+        意 4 个红色球号码和 1 个蓝色球号码相同，即中奖；五等奖的中奖规则为投注号码与当期开奖
+        号码中的任意 4 个红色球号码相同，或与任意 3 个红色球号码和 1 个蓝色球号码相同，即中奖。
+        请问四等奖和五等奖的中奖概率分别是多少？
+    \end{question}
+    
+    \begin{solution}
+        四等奖中奖有两种情形：（1）情形一：5个红球相同，蓝球不同。概率$P_1=\frac{\binom{6}{5}\binom{27}{1}}{\binom{33}{6}}\times\frac{15}{16}=\frac{1215}{8860544}$;\quad
+        (2)情形二：4个红球号码相同，且蓝球相同。概率$P_2=\frac{\binom{6}{4}\binom{27}{2}}{\binom{33}{6}}\times \frac{1}{16}=\frac{5265}{17721088}$;\quad 
+        所以四等奖中奖概率为$P_A=P_1+P_2=\frac{7695}{17727088}$ \par 
+        五等奖中奖有两种情形：（1）情形一：4个红球相同，蓝球不同。概率$P_3=\frac{\binom{6}{4}\binom{27}{2}}{\binom{33}{6}}\times\frac{15}{16}=\frac{78975}{17721088}$;\quad 
+        (2)情形二：3个红球号码相同，且蓝球相同。概率$P_4==\frac{\binom{6}{3}\binom{27}{3}}{\binom{33}{6}}\times \frac{1}{16}=\frac{14625}{4430272}$;\quad 
+        所以五等奖中奖概率为$P_B=P_3+P_4=\frac{137475}{17727088}$
+    \end{solution}
+
+    \begin{question}
+        独立重复地抛n次质地均匀的硬币 (n 为偶数)，将正面朝上的次数记为$\xi $，试估计:\\
+        \[ Pr[\xi=\lfloor \frac{n}{2}+3\sqrt{n} \rfloor ]\]
+    \end{question}
+
+    \begin{solution}
+        记$a=\lfloor \frac{n}{2}+3\sqrt{n} \rfloor$，则$Pr[\xi=a]=\frac{\binom{n}{a}}{2^n}=\frac{n!}{2^na!(n-a)!}$\par 
+        由stirling公式：$n!\sim \sqrt{2\pi n}(\frac{n}{e})^n$\par 
+        故$Pr[\xi=a]\sim \frac{\sqrt{2\pi n}(\frac{n}{e})^n}{2^n\sqrt{2\pi a}(\frac{a}{e})^a*\sqrt{2\pi(n-a)}(\frac{n-a}{e})^{n-a}}
+        =\frac{\sqrt{n}}{\sqrt{2\pi a(n-a)}(\frac{2a}{n})^a(2-\frac{2a}{n})^{n-a}}$\par 
+        \qquad \qquad \qquad$\sim \frac{1}{\sqrt{2\pi (\frac{n}{4}-9)}(1-\frac{36}{n})^\frac{n}{2}*(1+\frac{12}{\sqrt{n}-6})^{3\sqrt{n}}}
+        \sim \frac{1}{\sqrt{2\pi (\frac{n}{4}-9)}\frac{1}{e^{18}}e^{36}}$\par
+        \qquad \qquad \qquad$= \frac{\sqrt{2}}{\sqrt{\pi (n-36)}e^{18}}\sim \frac{\sqrt{2}}{\sqrt{\pi n}e^{18}}$
+    \end{solution}
+
+    \begin{question}
+        证明：对于一个 n 次多项式$P(x)$，若其在连续的 n + 1 个整数上的函数值为整数，即对于
+    $x_0 = t, x_1 = t + 1,\cdots, x_n = t + n, t \in \mathbb{Z} 有 P(x_i) \in \mathbb{Z}$，那么该多项式必定是整值多项式，反向
+    亦成立。
+    \end{question}
+
+    \begin{proof}
+        反向成立由整值多项式定义显然，以下只证明正向(利用Newton插值公式)：\par 
+        定义$\Delta f(x)=f(x+1)-f(x),\quad\Delta^2f(x)=\Delta(\Delta f(x))=f(x+2)-2f(x+1)+f(x),$一般的,有$\Delta^nf(x)=\Delta(\Delta^{n-1} f(x))$;
+        则利用公式$\binom{n}{k}+\binom{n}{k+1}=\binom{n+1}{k+1}$，我们容易得到表示多项式$f(x)$n次差分的以下公式：\par 
+        \[\Delta^Nf(x)=\sum_{i=0}^N(-1)^i\binom{N}{i}f(x+N-i)\]
+        由于$x_0 = t, x_1 = t + 1,\cdots, x_n = t + n, t \in \mathbb{Z} 有 P(x_i) \in \mathbb{Z}$，根据上式，相应的有$\Delta P(x),\cdots,\Delta^nP(x)\in \mathbb{Z}$\par 
+        根据Newton插值公式，对n次多项式，如果只考虑整点取值（可简化下式）有：
+        \[P(t+k)=P(t)+\binom{k}{1}\Delta P(t)+\cdots+\binom{k}{n}\Delta^nP(t)\]
+        由于$\Delta P(x),\cdots,\Delta^nP(x)$均为整数，且组合数同样均为整数，故对任意整数k，均有$P(t+k)$为整数，即$P(x)$为整值多项式。
+    \end{proof}
+
+    \begin{question}
+        Lucas数$l_0,l_1,\cdots, l_n,\cdots$是按照与定义斐波那契数相同的递推关系定义的，不过初始条件不同：
+        \[l_n=l_{n-1}+l_{n-2}(n\geq 2), l_0=2,l_1=1.\]
+        证明：a.$\quad l_n=f_n+f_{n-2},n\geq 2;$\par 
+        \quad b.$\quad l_0^2+l_1^2+\cdots+l_n^2=l_nl_{n+1}+2,\quad n\geq 0.$
+    \end{question}
+
+    \begin{proof}
+        首先由于Lucas数和斐波那契数具有相同的递推关系，则具有相同的特征方程：$x^2-x-1=0$,解得有特征根$x_1=\frac{1+\sqrt{5}}{2},x_2=\frac{1-\sqrt{5}}{2}$,分别代入初始值$f_0=1,f_1=1$及$l_0=2,l_1=1$有通项公式：\par 
+        \[f_n=\frac{1}{\sqrt{5}}[(\frac{1+\sqrt{5}}{2})^{n+1}-(\frac{1-\sqrt{5}}{2})^{n+1}]\]
+        \[l_n=(\frac{1+\sqrt{5}}{2})^n+(\frac{1-\sqrt{5}}{2})^n\] \par 
+        a.\quad 当$n\geq 2$时有
+        \begin{align*}
+            f_n+f_{n-2}&=\frac{1}{\sqrt{5}}(\frac{1+\sqrt{5}}{2})^n(\frac{1+\sqrt{5}}{2}-\frac{2}{1-\sqrt{5}})-\frac{1}{\sqrt{5}}(\frac{1-\sqrt{5}}{2})^n(\frac{1-\sqrt{5}}{2}-\frac{2}{1-\sqrt{5}}) \\
+        &=(\frac{1+\sqrt{5}}{2})^n+(\frac{1-\sqrt{5}}{2})^n=l_n 
+        \end{align*} 
+        b.\quad $n\geq 0$时，利用等比数列求和有下式：
+        \begin{align*}
+            l_0^2+l_1^2+\cdots+l_n^2
+            &=\sum_{i=0}^n[(\frac{1+\sqrt{5}}{2})^{2i}+(\frac{1-\sqrt{5}}{2})^{2i}+2(-1)^i]\\
+            &=\frac{2}{1+\sqrt{5}}((\frac{1+\sqrt{5}}{2})^{2n+2}-1)+\frac{2}{1-\sqrt{5}}((\frac{1-\sqrt{5}}{2})^{2n+2}-1)+1-(-1)^{n+1}\\
+            &=(\frac{1+\sqrt{5}}{2})^{2n+1}+(\frac{1-\sqrt{5}}{2})^{2n+1}+2-(-1)^{n+1}\\
+            l_nl_{n+1}+2
+            &=[(\frac{1+\sqrt{5}}{2})^n+(\frac{1-\sqrt{5}}{2})^n][(\frac{1+\sqrt{5}}{2})^{n+1}+(\frac{1-\sqrt{5}}{2})^{n+1}]+2\\
+            &=(\frac{1+\sqrt{5}}{2})^{2n+1}+(\frac{1-\sqrt{5}}{2})^{2n+1}+(-1)^n(\frac{1+\sqrt{5}}{2}+\frac{1-\sqrt{5}}{2})+2\\
+            &=l_0^2+l_1^2+\cdots+l_n^2
+        \end{align*}
+    \end{proof}
+
+    \begin{question}
+        求解非齐次递推关系：\par 
+        \quad a.$\begin{cases}
+            h_n=4h_{n-1}+3\times 2^n\quad (n\geq 1),\\
+            h_0=1.
+        \end{cases}$\par 
+        \quad b.$\begin{cases}
+            h_n=2h_{n-1}+n\quad (n\geq 1),\\
+            h_0=1.
+        \end{cases}$
+    \end{question}
+
+    \begin{solution}
+        a.\quad 首先求其相伴齐次线性方程的解$h_n^{(h)}$，易得$h_n=a\cdot 4^n$\par 
+        考察$F(n)=3\times 2^n$由于2不是相伴齐次线性方程的解，故该递推关系的一个特殊解$h_n^{(p)}$必形如$b\cdot 2^n$，由$h_n=h_n^{(h)}+h_n^{(p)}$代入递推关系方程有:
+        \[\begin{cases}
+            a\cdot 4^n+b\cdot 2^n=4(a\cdot 4^{n-1}+b\cdot 2^{n-1})+3\cdot 2^n\\
+            a+b=1
+        \end{cases}\]
+        解得$a=4,b=-3$，故$h_n=4^{n+1}-3\cdot 2^n$\par 
+        b.\quad 首先求其相伴齐次线性方程的解$h_n^{(h)}$，易得$h_n=a\cdot 2^n$\par
+        考察$F(n)=n\times 1^n$由于1不是相伴齐次线性方程的解，故该递推关系的一个特殊解$h_n^{(p)}$必形如$b\cdot n+c$，由$h_n=h_n^{(h)}+h_n^{(p)}$代入递推关系方程有:
+        \[\begin{cases}
+            a\cdot 2^n+b\cdot n+c=2(a\cdot 2^{n-1}+b(n-1)+c)+n\\
+            a+c=1
+        \end{cases}\]
+        解得$a=3,b=-1,c=-2$,故$h_n=3\cdot 2^n-n-2$
+    \end{solution}
+    \begin{question}
+        请回答下列问题：\par 
+        \quad a.n个圆最多能将平面划分为多少个区域？\par 
+        \quad b.n个球面最多能将三维空间划分为多少个区域？
+    \end{question}
+
+    \begin{solution}
+        a.\quad 应用欧拉公式V-E+F=2（其中V为顶点数，E为边数，F为平面区域数）特别的：对于平面内不与其他圆相交的一个圆仍应计算1个顶点\par 
+        首先考虑区域数最多的情形，任意两圆相交最多有2个交点，n个圆最多有$2\binom{n}{2}=n(n-1)$个交点；且对于每一个圆上均有2(n-1)个交点，即该圆可被分割为2(n-1)条边，
+        n个圆共有2n(n-1)条边；\par 
+        即此时$V=n(n-1),E=2n(n-1)$,故区域数为$F=E-V+2=n^2-n+2$;\par
+        另一方面，这种极端情况是可实现的，只需让n个圆任意两圆均相交，且任意三圆不共点即可。\par
+        故n个圆最多将平面划分为$n^2-n+2$个区域。\par 
+        ~\par 
+        b.\quad 通过递推进行求解，设K个球面最多将三维空间分为$b_K$个部分，显然有$b_1=1$,以下考虑已经有K个球面且取得最多区域时，新增一个球面最多新增的区域数。\par 
+        若前K个球面均与第K+1个球面相交，且交线圆不重合，则至多在第K+1个球面上产生K个交线圆，这些交线圆可将第K+1个球面分为若干个部分，将其每个部分称为一个球面片，则每个球面片可将原来的一个空间分割为两个部分，
+        即新增区域数至多与k个交线圆产生的球面片数相等。\par 
+        考虑将三维球面转化为二维平面情形，即在将球面上空白部分一点戳破，延展为平面，则该空白部分即是其三维边界对应的二维闭合曲线外区域，且这k个交线圆对应平面上k个闭合曲线，并保持相交性质不变。则球面片数量等于平面上
+        k个闭合曲线划分的区域数，应用a中结论即得，三维空间最多新增$K^2-K+2$个区域，故有递推公式$b_{K+1}=b_{K}+K^2-K+2$。\par 
+        相伴齐次线性方程解为$b_K^{(h)}=a_0$,考察$F(K)=(K^2-K+2)\times 1^K$，由于1是相伴齐次线性方程的解，故该递推关系一个特解形如$b_K^{(p)}=a_3K^3+a_2K^2+a_1K$;\par 
+        故$b_K$形如$a_3K^3+a_2K^2+a_1K+a_0$,代入初始值及递推式解得$b_K=\frac{K(K^2-3K+8)}{3}$;\par 
+        另一方面，这种极端情况是可实现的，只需让n个球任意两球均相交，且任意三圆不共点（即四球不共点）即可。
+        故n个球最多将三维空间划分为$\frac{n(n^2-3n+8)}{3}$个区域。
+    \end{solution}
+
+    \begin{question}
+        设$h_n$表示有 n + 2 条边的凸多边形被它的对角线分成的区域数，其中假设没有三条对角线有公共点，定义 $h_0 = 0$，证明：
+        \[h_n=h_{n-1}+\binom{n+1}{3}+n,\quad n\geq 1, \]
+        然后确定这个数列的生成函数，并由此得到$h_n$的公式。
+    \end{question}
+    
+    \begin{proof}
+        由$h_n$定义，有$h_1=1$,当$n\geq 2$时，利用欧拉公式 V-E+F=2（其中V为交点数，E为边数，F为整个平面区域数） \par 
+        已知整个平面区域数为$F_{k}=h_{k}+1$,在凸n+1边形其中一个边（不妨记为AB）外侧取一点C构成凸n+2边形，考察$F_{n}$增加量，即为凸多边形区域数增加量;\par 
+        首先统计从C出发的边数，则点数增加1个，边数增加n+1个；\par 
+        统计从C出发的对角线与凸n+2边形两个端点均不同的对角线交点总和$S(n)=\sum_{i=1}^{n-1}[i(n-i)]=n\sum_{i=1}^{n-1}i-\sum_{i=1}^{n-1}i^2=\frac{n^2(n-1}{2}-\frac{(n-1)n(2n-1)}{6}=\binom{n+1}{3}$;\par 
+        由于每增加一个上述交点，将增加两条边，故总计增加点数$S(n)+1$，总计增加边数$n+1+2S(n)$，则由F=E-V+2知，区域增加量为$S(n)+n$;\par 
+        即得区域数递推关系式$h_n=h_{n-1}+\binom{n+1}{3}+n$;且$n=1$时满足该式，结论证毕。\par 
+        设生成函数$G(x)=\sum_{i=0}^\infty h_ix^i$，结合递推式以及$h_0=0,h_1=1$则有：\par 
+        \begin{align*}
+            G(x)-x&=\sum_{i=2}^\infty(h_{i-1}+\binom{i+1}{3}+i)x^i\\
+            &=x\sum_{i=1}^\infty h_ix^i+\sum_{i=2}^\infty (\binom{i+1}{3}+i)x^i\\
+            &=xG(x)+\sum_{i=2}^\infty (\binom{i+1}{3}+i)x^i 
+        \end{align*}
+        整理可得：
+        \begin{align*}
+            G(x)&=\frac{1}{1-x}\sum_{i=0}^\infty(\binom{i+1}{3}+i)x^i \qquad \text{注意：此处简便起见利用}\binom{k}{n}=0 ,k<n\\
+            &=[\sum_{i=0}^\infty x^i][\sum_{i=0}^\infty(\binom{i+1}{3}+i)x^i]\\
+            &=\sum_{i=0}^\infty [\sum_{j=0}^i(\binom{j+1}{3}+j)]x^i\\
+            &=\sum_{i=0}^\infty [\sum_{j=0}^i(\frac{j^3}{6}+\frac{5j}{6})]x^i\\
+            &=\sum_{i=0}^\infty(\frac{i^4+2i^3+11i^2+10i}{24})x^i
+        \end{align*}
+        由此可得：$h_n=\frac{n^4+2n^3+11n^2+10n}{24}$
+    \end{proof}
+
+    \begin{question}
+        确定如下 n 位数的个数：每个数的各位数字都是奇数，而且 1 和 3 必须出现且出现偶数次。
+    \end{question}
+
+    \begin{solution}
+        首先1和3总共可能占位数为2i，$i=2,3,\cdots,\lfloor\frac{n}{2}\rfloor$,每种对应情况为$\binom{n}{2i}$,此时其余位置可能情况为$3^{n-2i}$;\par 
+        考虑1和3位置内部，1的位置数可能为$2,4,\cdots,2(i-1)$,所以可能情形为$\sum_{k=1}^{i-1}\binom{2i}{2k}=2^{2i-1}-2$种；\par 
+        则符合条件n位数个数为:
+        \begin{align*}
+            S(n)&=\sum_{i=2}^{\lfloor \frac{n}{2}\rfloor}\binom{n}{2i}(2^{2i-1}-2)3^{n-2i}\\
+            &=\frac{3^n}{2}\sum_{i=2}^{\lfloor \frac{n}{2}\rfloor}\binom{n}{2i}(\frac{2}{3})^{2i}-2\cdot 3^n\sum_{i=2}^{\lfloor \frac{n}{2}\rfloor}\binom{n}{2i}(\frac{1}{3})^{2i}
+        \end{align*}    
+        设$f(x)=(1+\frac{2}{3}x)^n$,分别代入$x=\pm 1$可得：
+        \[\sum_{i=2}^{\lfloor \frac{n}{2}\rfloor}\binom{n}{2i}(\frac{2}{3})^{2i}=\frac{f(1)+f(-1)}{2}-1-\binom{n}{2}(\frac{2}{3})^2=\frac{(\frac{5}{3})^n+(\frac{1}{3})^n}{2}-1-\frac{2n(n-1)}{9}\]
+        设$g(x)=(1+\frac{1}{3}x)^n$,同理可得：
+        \[\sum_{i=2}^{\lfloor \frac{n}{2}\rfloor}\binom{n}{2i}(\frac{1}{3})^{2i}=\frac{(\frac{4}{3})^n+(\frac{2}{3})^n}{2}-1-\frac{n(n-1)}{18}\]
+        将结果代入整理可得符合条件的n位数个数：
+        \[S(x)=\frac{5^n+1}{4}-4^n+\frac{3^{n+1}}{2}-2^n\]
+    \end{solution}
+
+    \begin{question}
+        某灯泡公司想确定其生产的灯泡从多高的楼层摔下来会摔碎，假设一共有 n 层楼，有两个
+完全相同的测试用灯泡,\par
+\quad a. 如果从某一层将一个灯泡扔下来没摔碎，那它可以被继续用来测试；\par 
+\quad b. 如果从某一层将一个灯泡扔下来时摔碎了，那么从更高的楼层扔下来也会摔碎。\par 
+\quad 问最少需要测试多少次才能确定哪一层是灯泡可以安全下落的最高位置？如果有 3 个灯泡呢？
+    \end{question}
+
+    \begin{solution}
+        设$f(a,b)$表示用a个灯泡进行b次测试最多测试的楼层数，则可以确定的楼层数为$f(a,b)+1$（此因1层为平地，不需测试），记第一次测试的楼层为x
+    则进行该测试后，将有以下情形：\par 
+    (1)若在x层灯泡破裂，则需测试x层以下楼层，剩余a-1个灯泡以及b-1次测量次数，还可测试楼层数位$f(a-1,b-1)$；\par 
+    (2)若在x层灯泡完好，则需测试x层以上楼层，剩余a个灯泡以及b-1次测量次数，还可测试楼层数位$f(a,b-1)$；\par
+    加上该次测量的楼层x，则有对可测量楼层数有递推式如下：
+    \[f(a,b)=f(a-1,b-1)+f(a-1,b-1)+1\]
+    考虑初始值，显然有$f(1,c)=c,f(d,1)=1$\par 
+    (i)当测试灯泡为2个，即a=2时，有递推式：$f(2,b)=f(1,b-1)+f(2,b-1)+1=f(2,b-1)+b$;\par 
+    结合初始值$f(2,1)=1$，有$f(2,b)=1+2+\cdots +b=\frac{b(b+1)}{2}$\par 
+    令$f(2,b)+1\geq n$,取满足条件的b的最小值，则$b_{min}=\lceil \frac{-1+\sqrt{8n-7}}{2} \rceil $
+    (ii)当测试灯泡为3个，即a=3时，有递推式$f(3,b)=f(2,b-1)+(3,b-1)+1=f(3,b-1)+\frac{b(b-1)}{2}+1$
+    结合初始值$f(3,1)=1$，有$f(3,b)=\binom{b+1}{3}+b$\par 
+    令$f(3,b)+1\geq n$,取满足条件的b的最小值，则
+    \[b_{min}=\lceil \frac{(-81+81n+3\sqrt{729n^2-1458n+1104})^\frac{1}{3}}{2}
+    -\frac{5}{(-81+81n+3\sqrt{729n^2-1458n+1104})^\frac{1}{3}}\rceil\]
+    \end{solution}
+\end{document}

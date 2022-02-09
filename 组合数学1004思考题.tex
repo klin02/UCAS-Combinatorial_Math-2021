@@ -1,0 +1,73 @@
+\documentclass[fontset=windows,11pt]{article}
+\usepackage[a4paper]{geometry}
+\geometry{left=2.0cm,right=2.0cm,top=2.5cm,bottom=2.5cm}
+
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath,amsfonts,graphicx,amssymb,bm,amsthm}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage[noend]{algpseudocode}
+\usepackage{mathtools}
+
+\newtheorem{question}{\hskip 1.7em}
+
+\newenvironment{solution}{{\noindent\hskip 2em \bf 解 \quad}}
+
+\renewenvironment{proof}{{\noindent\hskip 2em \bf 证明 \quad}}{\hfill$\qed$\par\vskip1em}
+
+\begin{document}
+    \begin{center}
+        {\Large \bf 组合数学10.04思考题}\\
+    \end{center}
+    \begin{kaishu}
+        \hfill 提交者：游昆霖 \quad 学号：2020K8009926006
+    \end{kaishu}
+
+\begin{question}
+    n*n方格图用1*2或2*1的多米诺牌进行覆盖，总共有多少种可能性？请给出显式表达式或估计。
+\end{question}
+\begin{solution}
+    显然，当且仅当n为偶数的时候有非零的多米诺牌覆盖情形数。一般地，考虑$m*n$方格图（m,n均为偶数）的多米诺牌覆盖情形。\par 
+    不妨用每个方格中心点代表该方格，用连接水平或垂直相邻点的线代表多米诺牌，则原问题可转化为如下形式：\par 
+    考虑一个$m*n$的点阵（m,n均为偶数），规定一个点作为且仅作为一条边的端点，所有边均为水平或竖直的，求满足以上条件的边的排布方式。\par
+    由于所有的边都是相邻点的连线，可以考虑将该点阵二染色，使得相邻点异色（例如，染色如黑白棋盘），则该点阵可转化为二分图，且黑点数=白点数
+    =$\frac{mn}{2}$,此时，每种满足条件的边的排布方式（方便起见，以下称为可行排布）对应二分图的一种完美匹配（反之不成立，此因黑点和白点不是任意相邻，不可任意连接） \par 
+    对黑点和白点，分别从左上角向右下角逐行编码，记为$a_i,b_i\quad (i=1,2,\cdots,\frac{mn}{2})$，则一种可行排布对应一个置换$\sigma$，使得$a_i$与$b_{\sigma(i)}$相邻，用$\sim $表示相邻，则只需求
+    \[F_{m,n}=\sum_{\sigma,a_i\sim b_{\sigma(i)},\forall i}1\]\par 
+    已知$\frac{mn}{2}\times \frac{mn}{2}$矩阵行列式可表达为$det K=\sum_\sigma sgn(\sigma)k_{1,\sigma(1)}\cdots k_{\frac{mn}{2},\sigma(\frac{mn}{2})}$\par 
+    注意到：$sgn(\sigma)$可表示为$(-1)^k$，其中k为该置换可分解的对换个数。观察得到，若一个可行排布复合奇数次对换仍为一个可行排布，则必将增加2条竖直边(在mod4的意义下)，且符号乘-1，
+    考虑到最平凡的可行分布$\sigma_0:i\rightarrow i$，符号为1，可为表示竖直边的元素赋权i以消去$\sigma$符号的改变，为使以上两式有相同形式，我们可对K的元素进行以下赋值
+    \begin{align*}
+        k_{i,j}=\begin{cases}
+            1\quad a_i\sim b_j,\text{且连线水平}\\
+            i\quad a_i\sim b_j,\text{且连线竖直}\\
+            0\quad \text{else}
+        \end{cases}
+    \end{align*}\par 
+    此时，K即为该点阵的邻接矩阵（其中，表示竖直边的元素替换为i以消去$sgn(\sigma)$），不妨将该矩阵称为点阵的二部邻接矩阵，则只需求$det K$\par 
+    对该点阵重新编码，$s.t.\quad a_i=c_i,b_i=c_{i+\frac{mn}{2}}\forall i=1,\cdots,\frac{mn}{2}$此时$mn\times mn$矩阵$C_{m,n}=\begin{bmatrix*}
+        0,K\\
+        K^t,0
+    \end{bmatrix*}$即为该点阵的邻接矩阵（在将权重i考虑为1的情况下），且$det C_{m,n}=(det K)^2$\par 
+    ~\par 
+    邻接矩阵的行列式与编码顺序无关，且点阵图G是长度为m的直线点列与长度为n的直线点列的笛卡尔积。记这两个点列的邻接矩阵分别为$C_m,C_n$，且$C_m,C_n$的特征值和特征向量
+    分别为$\lambda_m,\vec{v_m}$与$\lambda_n,\vec{v_n}$，则$C_{m,n}=C_m\otimes I_n+iI_m\otimes C_n,\quad C_{m,n}$的特征值为$\lambda_m+i\lambda_n$;[注记1]\par 
+    ~\par 
+    注意到$C_m=J_m+J_m^{-1}$其中$J_m$为m阶（上）若尔当块，其逆为m阶下若尔当块（不考虑边界的情况下），方便起见，先计算无穷阶若尔当块的特征值$\mu$，则$\lambda_m=\mu+\mu^{-1}$\par 
+    由$C_m$拓展到无穷阶的特征值可知，$C_m$的特征向量必为$\vec{w_1}=[\cdots,\mu^{-1},1,\mu^1,\cdots]$和$\vec{w_2}=[\cdots,\mu^1,1,\mu^{-1},\cdots]$的线性组合。同时考虑边界条件，
+    若$\vec{v}=[v_1,\cdots,v_m]$为$C_m$的特征向量，则应满足$v_0=v_{m+1}=0$,注意到$\vec{v_1}-\vec{v_2}$可出现0项，将其作为$v_0$，则同时应当满足$v_{m+1}=\mu^{m+1}-\mu^{-m-1}=0$,
+    故解得$\mu=e^{i\pi /m+1},\quad\lambda_m=2cos\frac{i\pi}{m+1}\quad (i=1,\cdots,m)$,完全同理，有$\lambda_n=2cos\frac{j\pi}{m+1}\quad (j=1,\cdots,n)$\par 
+    由特征多项式及多元韦达定理易知，矩阵的行列式为所有特征值（计算重数）的乘积，于是我们可以得到以下式子：
+    \begin{align*}
+        det K&= \sqrt{det C_{m,n}}\\
+        &=\prod_{i=1}^m\prod_{j=1}^n\sqrt{2cos\frac{i\pi}{m+1}+2icos\frac{j\pi}{n+1}} 
+    \end{align*}\par
+    该结果即为所求。
+    ~\par 
+    ~\par 
+    ~\par 
+    ~\par 
+    [注记1]：笔者离散数学与线性代数课程对部分相关知识进行了介绍，但未深入学习图的笛卡尔积与对应邻接矩阵关系式，以及相关张量知识，本自然段内容通过网上查阅代数图论与张量相关文献获得，此处不加证明的加以引用。
+    
+\end{solution}
+\end{document}

@@ -1,0 +1,205 @@
+\documentclass[fontset=windows,11pt]{article}
+\usepackage[a4paper]{geometry}
+\geometry{left=2.0cm,right=2.0cm,top=2.5cm,bottom=2.5cm}
+
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath,amsfonts,graphicx,amssymb,bm,amsthm}
+\usepackage[noend]{algpseudocode}
+\usepackage{mathtools}
+\newtheorem{question}{\hskip 1.7em}
+
+\newenvironment{solution}{{\noindent\hskip 2em \bf 解 \quad}}
+
+\renewenvironment{proof}{{\noindent\hskip 2em \bf 证明 \quad}}{\hfill$\qed$\par\vskip1em}
+\newcommand\E{\mathbb{E}}
+
+\begin{document}
+    \begin{center}
+        {\Large \bf 组合数学Homework3}\\
+    \end{center}
+    \begin{kaishu}
+        \hfill 提交者：游昆霖 \quad 学号：2020K8009926006
+    \end{kaishu}
+
+\begin{question}
+    求解如下递推关系：
+    \begin{itemize}
+        \item [a.]$h_{0}=0;\quad h_{1}=1;\quad h_{2}=2;$
+            \par\hskip12pt$h_{n}=h_{n-1}+9h_{n-2}-9h_{n-3}, \qquad (n\geq 3)$
+        \item [b.]$h_{0}=2;$
+            \par\hskip12pt$h_{n}=(n+2)h_{n-1}+(n+2), \qquad (n\geq 1)$
+        \item [c.]$h_0=3;\quad h_1=4;$
+            \par\hskip12pt$h_n=2h_{n-1}-h_{n-2}+n+1, \qquad (n\ge 2)$
+    \end{itemize}
+\end{question}
+
+\begin{solution}
+    a.（法一）由递推式可得其特征根方程为：$x^3-x^2-9x+9=0$，解得，$x_0=1,x_1=3,x_2=-3$;\par 
+    于是$h_n$通项公式形如：$h_n=a+b\times 3^n+c\times (-3)^n$;\quad (a,b,c为常数)\par 
+    代入初始值   $h_{0}=0;\quad h_{1}=1;\quad h_{2}=2;$ 可得$a=-\frac{1}{4},b=\frac{1}{3},c=-\frac{1}{12}$;\par 
+    于是有通项公式$h_n=-\frac{1}{4}+3^{n-1}+\frac{1}{4}(-3)^{n-1}$\par 
+    \qquad（法二）递推式整理可得：$h_n-h_{n-1}=9(h_{n-2}-h_{n-3})$,设$f_n=h_n-h_{n-1}$,\par 
+    则有$h_n=\sum_{k=1}^nf_k$，且有初始值$f_1=1,f_2=1$及递推式$f_n=9f_{n-2} \quad(n\geq 3)$故$f_n=9^{\lceil \frac{n}{2}-1\rceil}$;\par 
+    \begin{align*}
+        \therefore h_n&=\begin{cases}
+            2(\sum_{k=0}^{\frac{n}{2}-1}9^k)&=\frac{3^n-1}{4}  \qquad \qquad \text{n为偶数}\\
+            2(\sum_{k=0}^{\frac{n-1}{2}-1}9^k)+9^{\frac{n-1}{2}} &=\frac{5}{4}\times 3^{n-1}-\frac{1}{4} \quad \text{n为奇数}
+        \end{cases}\\ 
+            &=-\frac{1}{4}+3^{n-1}+\frac{1}{4}(-3)^{n-1}
+    \end{align*}
+
+    \qquad b.将递推关系式等号两侧同除$\frac{1}{(n+2)!}$,并设$f_n=\frac{h_n}{(n+2)!}$可得递推式$f_n=f_{n-1}+\frac{1}{(n+1)!}$\par 
+    由于所得递推式为等差数列，结合初始值$f_0=1$即得$f_n=1+\frac{1}{2!}+\cdots+\frac{1}{(n+1)!}$,\par 
+    故$h_n=(n+2)!\times \sum_{k=1}^{n+1}\frac{1}{k!}$\par 
+    \qquad c.递推式整理可得：$h_n-h_{n-1}=h_{n-1}-h_{n-2}+n+1$，设$f_n=h_n-h_{n-1}$\par 
+    则有$h_n=\sum_{k=1}^nf_k+3$，且有初始值$f_1=1$及递推式$f_n=f_{n-1}+n+1$，\par 
+    故$f_n=1+3+4+\cdots+(n+1)=\frac{(n+1)(n+2)}{2}-2=\frac{n^2+3n-2}{2}$\par 
+    于是$h_n=\frac{n(n+1)(2n+1)}{12}+\frac{3n(n+1)}{4}-n+3=\frac{n^3+6n^2-n}{6}+3$
+\end{solution}
+
+\begin{question}
+    设$S$是多重集合$\{\infty\cdot e_{1},\infty\cdot e_{2},\infty \cdot e_{3},\infty\cdot e_{4}\}$。请确定数列$h_{1},h_{2},\dots,h_{n},\dots$的生成函数，其中$h_{n}$表示分别满足下面各种限制的$S$的$n$组合数：
+    \begin{itemize}
+        \item[a.] 每个$e_{i}$出现的次数为3的倍数；
+        \item[b.] $e_{1}$不出现，$e_{2}$至多出现一次；
+        \item[c.] 每个$e_{i}$至少出现10次。
+    \end{itemize}
+\end{question}
+
+\begin{solution}
+    设$a_n$表示单重集合$\{\infty\cdot e_{1}\}$的n组合数，其生成函数为$A(x)$,类似的定义$B(x),C(x),D(x)$，则$h_n$的生成函数$H(x)$为满足条件的$A(x),B(x),C(x),D(x)$的乘积\par 
+    a.由条件限制可得:$A(x)=B(x)=C(x)=D(x)=1+x^3+x^6+\cdots +x^{3k}+\cdots$\par 
+    \[\therefore H(x)=(\sum_{k=0}^\infty x^{3k})^4=(\frac{1}{1-x^3})^4\]\par 
+    b.由条件限制可得：$A(x)=1,B(x)=1+x,C(x)=D(x)=1+x+x^2+\cdots +x^k+\cdots$\par 
+    \[\therefore H(x)=(1+x)(\sum_{k=0}^\infty x^k)^2=\frac{1+x}{(1-x)^2}\]\par 
+    c.由条件限制可得：$A(x)=B(x)=C(x)=D(x)=x^{10}+x^{11}+\cdots +x^k+\cdots$\par 
+    \[\therefore H(x)=(\sum_{k=10}^\infty x^k)^4=(\frac{x^{10}}{1-x})4\]
+\end{solution}
+
+\begin{question}
+    确定满足下面条件，给$1\times n$的棋盘染色的方案数：用红色、蓝色、绿色和橙色着色，要求其中红色格子有奇数个，绿色格子必定出现且有偶数个。
+\end{question}
+
+\begin{solution}
+    假设方案数共有$f_n$种，假设红格个数i，绿格个数j，蓝格个数k，则橙格个数为$n-i-j-k(i+j+k\leq n)$;
+    由可重排列公式，所有可能数为
+    \[f_n=\sum_{\substack{i,j,k\\ i+j+k\leq n, 2\nmid i,2\mid j}} \frac{n!}{i!j!k!(n-i-j-k)!}\]\par 
+    设红格、绿格、蓝格、橙格生成函数分别为$A(x),B(x),C(x),D(x)$,由奇偶性限制则有：
+    \begin{align*}
+        A(x)=x+\frac{x^3}{3!}+\frac{x^5}{5!}+\cdots=\frac{e^x-e^{-x}}{2}\\
+        B(x)=\frac{x^2}{2!}+\frac{x^4}{4!}+\cdots=\frac{e^x+e^{-x}}{2}-1\\
+        C(x)=\sum_{k\ge0}\frac{x^i}{i!}=1+x+\frac{x^2}{2!}+\cdots=e^x\\
+        D(x)=\sum_{t\ge0}\frac{x^i}{i!}=1+x+\frac{x^2}{2!}+\cdots=e^x
+    \end{align*} \par 
+    考虑$x^n$项系数，则t只能取$n-i-j-k$,由Vandermonde恒等式四阶形式可得：
+    \begin{align*}
+        \sum_{n\geq 0}\frac{f(n)}{n!}x^n&=A(x)\cdot B(x)\cdot C(x)\cdot D(x)\\
+        &=\frac{e^x-e^{-x}}{2}\cdot (\frac{e^x+e^{-x}}{2}-1)\cdot e^x \cdot e^x\\
+        &=\frac{1}{4}(e^{4x}-2e^{3x}+2e^{x}-1)  \\
+        &=-\frac{1}{4}+\frac{1}{4}\sum_{n\geq 0}(\frac{4^n-2\cdot 3^n+2}{n!})x^n  
+\end{align*}\par 
+    对比系数可得$f_n=\frac{1}{4}(4^n-2\cdot 3^n+2)$
+\end{solution}
+
+\begin{question}
+    给定一个$n$个节点的扇形（记为$W_{n}$，见下图），问$W_{n}$有多少棵不同的生成树？（图中顶点各不相同）
+\end{question}
+
+\begin{solution}
+    假设n节点扇形的生成树个数为$h_n$,则显然有$h_1=1,h_2=1,h_3=3$,以下考虑n+1个节点扇形生成树数量$h_{n+1}$：\par
+    考虑扇形最右侧节点（记为x）在生成树中的度数，显然其度数只能为1（对应叶）或者2（对应内点），分情形进行考虑；\par 
+    a.若该点度数为1，则该点为叶，每种n节点扇形的生成树将最右侧节点（记为a）或扇心节点（记为b）作为x的父节点均可得到n+1节点，且x度数为1的生成树，
+    该类情形有$2h_n\quad (n\geq 2)$种\par 
+    b.若该点度数为2，则该点为内点，且同时连接n节点扇形最右侧点（a）和扇心（b），将生成树删去点x即可得到含扇心k节点扇形$1\leq k\leq n$的生成树和n-k节点弧形的生成树；
+    注意到弧形的生成树唯一,于是该类情形生成树为$h_1+h_2+\cdots +h_{n-1}$种\par 
+    综上，有递推式$h_{n+1}=2h_n+\sum_{k=0}^{n-1}h_k\quad (n\geq 2)$;\par 
+    整理即得$h_{n+2}=3h_{n+1}-h_n$,结合初始值$h_2=1,h_3=3$解得$h_n=\frac{1}{\sqrt{5}}[(\frac{3+\sqrt{5}}{2})^{n-1}-(\frac{3-\sqrt{5}}{2})^{n-1}]$
+\end{solution}
+
+\begin{question}
+    计算如下数列：
+    \begin{itemize}
+        \item [a.]有$n$个叶子节点的不同的满二叉树（full binary tree, 指每个节点孩子个数均为$0$或$2$的树）共有多少种？
+        \item [b.]长为$2n$的由左右小括号组成的序列中，包含$n$对可以合法匹配的括号的序列共有多少种？
+        \item [c.]给定一个任意的凸$n$边形，不相交地连接多边形的顶点，可以将原先的多边形划分成三角形的组合，问一共有多少种不同的划分方法？
+    \end{itemize}
+\end{question}
+
+\begin{solution}
+    a.假设n个叶子节点的不同的满二叉树共有$h_n$种，显然有$h_1=1,h_2=1$;\par 
+    当$n\geq 2$时，根节点必有两个子节点，则有左子树和右子树，且子树叶子均非空，不妨设左子树叶子数为$k\quad (1\leq k \leq n-1)$，则右子树叶子数为$n-k$;\par 
+    于是有递推式$h_n=\sum_{k=1}^{n-1}h_k\cdot h_{n-k}$\par 
+    补充定义$h_0=1$,设$h_n$的生成函数为$H(x)$,则:
+    \begin{align*}
+    H(x)&=\sum_{n\geq 0}h_nx^n=1+x+\sum_{n\geq 2}x^n(\sum_{k=1}^{n-1}h_k\cdot h_{n-k})  \\
+    \because H^2(x)&=1+2x+\sum_{n\geq 2}x^n(2h_n+\sum_{k=1}^{n-1}h_k\cdot h_{n-k})\\
+    &=1+2x+3(H(x)-1-x)
+    \end{align*}  \par 
+    整理得：$H^2(x)-3H(x)+x+2=0$，解得$H(x)=\frac{3-\sqrt{1-4x}}{2}$(代入$H(0)=h_0=1$可将另解舍去),于是有:\par 
+    \begin{align*}
+        H(x)&=\frac{1}{2}[2-\sum_{n>=1}x^n\frac{(-1)^{n-1}}{2^{2n-1}}\frac{\binom{2n-2}{n-1}}{n}(-4)^n]\\
+        &=1+\sum_{n\geq 1}x^n\frac{\binom{2n-2}{n-1}}{n}
+    \end{align*}
+    于是$h_n=\frac{\binom{2n-2}{n-1}}{n}\quad (n\geq 1)$\par 
+    ~\par 
+    b.首先考虑所有可能序列，即在2n位置中选择n个放置左括号，情形数为$\binom{2n}{n}$;\par 
+    然后考虑非法输入，即某位置之前右括号数大于左括号数的情形，不妨将问题转化为以下形式:\par 
+    考虑$n*n$网格,以纵坐标y表示现有左括号数，横坐标x表示现有右括号数，则每种可能序列均对应从$(0,0)$到$(n,n)$的一个最短路径；且其中非法路径必与
+    直线$l:y=x-1$有公共点，做$(0,0)$关于l的对称点$(1,-1)$，则非法序列数等于从$(1,-1)$到$(n,n)$的最短路径数，即$\binom{2n}{n+1}$;\par 
+    于是合法序列数为$\binom{2n}{n}-\binom{2n}{n+1}=\frac{1}{n+1}\binom{2n}{n}$\par 
+    ~\par 
+    c.首先将凸n边形的顶点依次标记为$a_1,a_2,\cdots, a_n$，由于凸多边形任意一条边必属于划分中的一个三角形，不妨取边$(a_1,a_n)$,再在剩余顶点中任取一个不同于以上两点的
+    顶点$a_k$构成三角形，则该三角形将凸n边形划分为两个较小的凸多边形，一个是由$a_1,a_2,\cdots,a_k$构成的凸k边形，一个是由$a_k,a_{k+1},\cdots,a_n$构成的凸n-k+1边形；\par 
+    设凸n边形对应的三角形划分方法数为$h_n$,显然有$h_3=1$,补充定义$h_2=1$，则由上述过程可得递推式$h_n=\sum_{k=2}^{n-1}h_k\cdot h_{n-k+1} \quad (n\geq 4)$\par 
+    设$g_{n-2}=h_n$,则有初始值$g_0=g_1=1$即递推式$g_n=\sum_{k=0}^{n-1}g_k\cdot g_{n-k-1}$,设其生成函数为$G(x)$,则：
+    \begin{align*}
+        G(x)&=1+\sum_{n\geq 1}g_nx^n\\
+        \because G^2(x)&=\sum_{n\geq 1}x^{n-1}(\sum_{k\geq 0}^{n-1}g_k\cdot g_{n-k-1})
+        \therefore G(x)=1+xG^2(x);
+    \end{align*}
+    解得：$G(x)=\frac{1-\sqrt{1-4x}}{2x}$(通过代入$G(0)=1$可将另解舍去)\par 
+    级数展开可得$G(x)=\sum_{n\geq 0}\frac{1}{n+1}\binom{2n}{n}x^n$\par 
+    于是$g_n=\frac{1}{n+1}\binom{2n}{n},\quad h_n=g_{n-2}=\frac{1}{n-1}\binom{2n-4}{n-2}$
+\end{solution}
+    
+\begin{question}
+    一个圆上等间隔地选出$2n$个点，将这些点用$n$条互不相交的线段连成$n$对，共有多少种不同的方式？
+\end{question}
+
+\begin{solution}
+    将圆上点顺时针排序为$a_1,a_2,\cdots,a_{2n}$设$f_{2n}$表示圆上2n个点的连线方式，则显然有初始值$f_2=1$\par 
+    取圆上任意两点连线分割,不妨记为$(a_1,a_k)$,则该连线将圆上剩余2n-2个点分为两部分，注意到，对任意合法的连线方式，均要求这两部分点均为偶数个，
+    （奇数个则必然可以在两侧分别取一个点，使其连线与分割线相交）。\par 
+    于是可设一侧点数为$2i\quad (0\leq i \leq n-1)$，则另一侧点数为$2(n-1-i)$，由于两部分连线各不相交，
+    对一个确定的分割，圆上2n个点的连线方式即等于圆上2i个点的连线方式和圆上2（n-i）个点的连线方式乘积；\par 
+    补充定义$f_0=1$于是有递推式:
+    \[f_{2n}=\sum_{i=0}^{n-1}f_{2i}\cdot f_{2(n-1-i)}\quad (n\geq 2)\]\par 
+    令$h_n=f_{2n}$,则$h_n$初始值及递推式即为标准的Catalan初始值及递推式，同题5.c中关于$g_n$求解过程可得：$f_{2n}=h_n=\frac{1}{n+1}\binom{2n}{n}$
+\end{solution}
+
+\begin{question}
+    确定$S_n$中$132$禁位排列的个数，即：排列$\pi$中不存在$3$个位置$i<j<k$满足$\pi(i)<\pi(k)<\pi(j)$。例如，$n=3$时共有$123,213,231,312,321$这$5$种。
+\end{question}
+
+\begin{solution}
+    首先证明132禁位排列条件等价于一个$a_n,\cdots,a_k,\cdots,a_1$的入栈序列经过一个栈可能生成的出栈序列\par 
+    注意到：任意三个入栈元素的出栈排序只与其相对入栈序列有关，与其余入栈元素无关，因此，依据栈“先进后出”的特点，对一个以$a_k,a_j,a_j$顺序
+    入栈的序列，可得所有出栈可能的相对顺序为：
+    \[a_i,a_j,a_k\quad a_j,a_i,a_k\quad a_j,a_k,a_i\quad a_k,a_i,a_j\quad a_k,a_j,a_i\]\par 
+    即所有经过栈的可能排列等价于132禁位排列，于是原题可描述为：确定一个$a_n,\cdots,a_k,\cdots,a_1$的入栈序列经过一个栈可能生成的出栈序列数(记为$h_n$)\par 
+    显然有$h_1=1,h_2=2$，设后于$a_n$出栈的共有k个$(0\leq k\leq n-1)$，注意到由于$a_n$最先入栈，当$a_n$出栈时，栈完全清空，因此后于$a_n$出栈的元素为$a_1,\cdots,a_k$，先于$a_n$出栈的元素
+    为$a_k,\cdots, a_{n-1}$，且两部分排列数均满足132禁位排列，于是有递推式$h_n=\sum_{k=0}^{n-1}h_k\cdot h_{n-1-k}$其递推式及初始值即为标准Catalan数初始值及递推式，
+    同题5.c中关于$g_n$求解过程可得：$h_n=\frac{1}{n+1}\binom{2n}{n}$
+\end{solution}
+
+\begin{question}
+    有$n$个木块，每块长度为 1（不考虑厚度），质量相同。把它们一个一个垒在一个桌子上，如下图所示，每层只放一个木块。在所有木块保持稳定的前提下，最顶层木块的最右端与桌子边缘的距离最多是多少？
+\end{question}
+
+\begin{solution}
+    （利用贪心算法求解）不妨将木块自上而下编号为$1,2,\cdots,n$，设木块质量为G，第k个木块右端相对于第k+1个木块右端的伸出量为$x_k$,前k个木块公共重心距第k个木块左端为$g_k$,则显然有$x_1=\frac{1}{2},g_1=\frac{1}{2}$\par 
+    考虑k个木块$(k\geq 2)$的情形，首先对前k-1个木块，为保持平衡，应有前k-1个木块公共重心位于第k个木块右端点，于是由力矩公式有:$g_{k}=\frac{\frac{1}{2}\cdot G+1\cdot (k-1)G}{kG}=1-\frac{1}{2k}$\par 
+    为使得总伸出量最大，令前k个木块的公共重心位于第k+1个木块右侧，则有第k个木块右端相对于第k+1个木块右端的伸出量为$x_k=1-g_k=\frac{1}{2k}$\par 
+    如此进行下去，最终将前n个木块的公共重心放置于桌面右端，则有总伸出量为$S=\frac{1}{2}+\frac{1}{4}+\cdots+\frac{1}{2n}=\frac{1}{2}\sum_{k=1}^n\frac{1}{k}$
+\end{solution}
+\end{document}

@@ -1,0 +1,193 @@
+\documentclass[fontset=windows,11pt]{article}
+\usepackage[a4paper]{geometry}
+\geometry{left=2.0cm,right=2.0cm,top=2.5cm,bottom=2.5cm}
+
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath,amsfonts,graphicx,amssymb,bm,amsthm}
+\usepackage[noend]{algpseudocode}
+\usepackage{mathtools}
+\newtheorem{question}{\hskip 1.7em}
+
+\newenvironment{solution}{{\noindent\hskip 2em \bf 解 \quad}}
+
+\renewenvironment{proof}{{\noindent\hskip 2em \bf 证明 \quad}}{\hfill$\qed$\par\vskip1em}
+\newcommand\E{\mathbb{E}}
+
+\begin{document}
+    \begin{center}
+        {\Large \bf 组合数学Homework4}\\
+    \end{center}
+    \begin{kaishu}
+        \hfill 提交者：游昆霖 \quad 学号：2020K8009926006
+    \end{kaishu}
+
+    \begin{question}
+        确定在满足下面条件之下给$1\times n$的棋盘着色的方法数：用红色、蓝色和绿色着色，每一种颜色至少用一次，并且红格数能被3整除。
+    \end{question}
+
+    \begin{solution}
+        假设方案数共有$f_n$种，假设红格个数i，蓝格个数j，则绿格个数为$n-i-j(i+j\leq n-1)$;
+        由可重排列公式，所有可能数为
+        \[f_n=\sum_{\substack{i,j\\ i+j\leq n-1, 3\mid i,i\geq 1,j\geq 1}} \frac{n!}{i!j!(n-i-j)!}\]\par 
+        设红格、蓝格、绿格生成函数分别为$A(x),B(x),C(x)$,由限制则有：
+        \begin{align*}
+            A(x)&=\frac{x^3}{3!}+\frac{x^6}{6!}+\frac{x^9}{9!}\cdots=\frac{e^x+e^{wx}+e^{w^2x}}{3}-1\quad \\
+            &\text{其中$w=e^\frac{2\pi i}{3}=-\frac{1}{2}+\frac{\sqrt{3}i}{2}$为三次单位根}\\
+            B(x)&=\sum_{j\geq 1}\frac{x^i}{i!}=x+\frac{x^2}{2!}+\cdots=e^x-1\\
+            C(x)&=\sum_{k\geq 1}\frac{x^i}{i!}=x+\frac{x^2}{2!}+\cdots=e^x-1
+        \end{align*} \par 
+        考虑$x^n$项系数，则t只能取$n-i-j$,由Vandermonde恒等式三阶形式可得：
+        \begin{align*}
+            \sum_{n\geq 0}\frac{f(n)}{n!}x^n&=A(x)\cdot B(x)\cdot C(x)\\
+            &=(e^x-1)^2(\frac{e^x+e^{wx}+e^{w^2x}}{3}-1)\\
+            &=\frac{1}{3}[e^{3x}+e{\frac{3+\sqrt{3}i}{2}x}+e^{\frac{3-\sqrt{3}i}{2}x}-5e^{2x}-2e^{\frac{1+\sqrt{3}i}{2}x}-2e^{\frac{1-\sqrt{3}i}{2}x}+7e^x+e^{\frac{-1+\sqrt{3}i}{2}x}+e^{\frac{-1-\sqrt{3}i}{2}x}-3]\\
+            &=-1-\frac{1}{3}\sum_{n\geq 0}\frac{1}{n!}[3^n+(\frac{3+\sqrt{3}i}{2})^n+(\frac{3-\sqrt{3}i}{2})^n-5\cdot 2^n-2(\frac{1+\sqrt{3}i}{2})^n-2(\frac{1-\sqrt{3}i}{2})^n\\
+            &\quad +7+(\frac{-1+\sqrt{3}i}{2})^n+(\frac{-1-\sqrt{3}i}{2})^n ]\\
+            &=-1-\frac{1}{3}\sum_{n\geq 0}\frac{1}{n!}[3^n+2\cdot 3^{\frac{n}{2}}cos(\frac{n\pi}{6})-5\cdot 2^n-4\cdot cos(\frac{n\pi}{3})+7+2\cdot cos(\frac{2n\pi}{3})]
+        \end{align*}\par 
+        对比系数即得:
+        \begin{align*}
+            f_n=\begin{cases}
+                0\quad (n=0,1,\cdots 4)\\
+                -\frac{1}{3}[3^n+2\cdot 3^{\frac{n}{2}}cos(\frac{n\pi}{6})-5\cdot 2^n-4\cdot cos(\frac{n\pi}{3})+7+2\cdot cos(\frac{2n\pi}{3})]  \quad(n\geq 5)
+            \end{cases}
+        \end{align*}
+        
+    \end{solution}
+    
+    \begin{question}
+        求由数字1，2组成的且能被3整除的$n$位数的个数。
+    \end{question}
+
+    \begin{solution}
+        该n位数被3整除等价于各位数之和被3整除。首先考虑在mod3的意义下1和2的位数，易知若该数被3整除，则1和2的位数同为0或同为1或同为2。由此我们可在mod3的意义下对位数进行分类：\par 
+        设$w=e^\frac{2\pi i}{3}=-\frac{1}{2}+\frac{\sqrt{3}i}{2}$为三次单位根\par 
+        a.若$n=3k\quad (k\in \mathbb{Z})$则mod3的意义下1和2的位数同为0，可能情形数为
+        \[\sum_{t=0}^k\binom{n}{3t}=\frac{1}{3}[(1+1)^n+(1+w)^n+(1+w^2)^n]=\frac{1}{3}[2^n+2cos(\frac{n\pi}{3})]=\frac{2^n+2\cdot (-1)^n}{3}\]\par 
+        b.若$n=3k+1\quad (k\in \mathbb{Z})$则mod3的意义下1和2的位数同为2，可能情形数为
+        \[\sum_{t=0}^{k-1}\binom{n}{3t+2}=\frac{1}{3}[(1+1)^n+w(1+w)^n+w^2(1+w^2)^n]=\frac{1}{3}[2^n-2cos(\frac{(n-1)\pi}{3})]=\frac{2^n+2\cdot (-1)^n}{3}\]\par 
+        c.若$n=3k+2\quad (k\in \mathbb{Z})$则mod3的意义下1和2的位数同为1，可能情形数为
+        \[\sum_{t=0}^k\binom{n}{3t+1}=\frac{1}{3}[(1+1)^n+w^2(1+w)^n+w(1+w^2)^n]=\frac{1}{3}[2^n-2cos(\frac{(n+1)\pi}{3})]=\frac{2^n+2\cdot (-1)^n}{3}\]\par 
+        综上,满足条件n位数的个数为：$\frac{2^n+2\cdot (-1)^n}{3}$
+    \end{solution}
+
+    \begin{question}
+        求从1到10000中不能被4、6、7或10整除的整数个数。
+    \end{question}
+
+    \begin{solution}
+        利用容斥原理求解。设$I={1,2,\cdots,10000},A_1=\{1\leq n\leq 10000|n=4k,k\in\mathbb{Z}\},A_2=\{1\leq k\leq 10000|n=6k,k\in\mathbb{Z}\},A_3=\{1\leq k\leq 10000|n=7k,k\in\mathbb{Z}\},A_4=\{1\leq k\leq 10000|n=10k,k\in\mathbb{Z}\}$\par 
+        则有\begin{gather*}
+        |A_1|=\lfloor \frac{10000}{4}\rfloor=2500,|A_1|=\lfloor \frac{10000}{6}\rfloor=1666,|A_1|=\lfloor \frac{10000}{7}\rfloor=1428,|A_1|=\lfloor \frac{10000}{10}\rfloor=1000\\ 
+        |A_1 \cap A_2|=\lfloor \frac{10000}{12}\rfloor=833, |A_1 \cap A_3|=\lfloor \frac{10000}{28}\rfloor=357 ,|A_1\cap A_4|=\lfloor \frac{10000}{20} \rfloor=500 ,\\
+        |A_2 \cap A_3|=\lfloor \frac{10000}{42} \rfloor=238 ,|A_2\cap A_4|=\lfloor \frac{10000}{30} \rfloor= 333,|A_3\cap A_4|=\lfloor \frac{10000}{70} \rfloor= 142,\\
+        |A_1 \cap A_2 \cap A_3|=\lfloor \frac{10000}{84} \rfloor= 119,|A_1 \cap A_2 \cap A_4|=\lfloor \frac{10000}{60} \rfloor=166 ,|A_1 \cap A_3\cap A_4|=\lfloor \frac{10000}{140} \rfloor= 71,\\
+        |A_2 \cap A_3 \cap A_4|=\lfloor \frac{10000}{210} \rfloor= 47,|A_1 \cap A_2 \cap A_3\cap A_4|=\lfloor \frac{10000}{420} \rfloor=23 ,
+        \end{gather*}\par 
+        由容斥原理则有：
+        \begin{align*}
+            |\overline{A_1}\cap \overline{A_2}\cap \overline{A_3}\cap \overline{A_4}|
+            &=|I|-\sum_{i=1}^4|A_i|+\sum_{1\leq i<j \leq 4}|A_i\cap A_j|-\sum_{1\leq i<j<k \leq 4}|A_i\cap A_j \cap A_k|+|\bigcap_{i=1}^4A_i|\\
+            &=5429
+        \end{align*}
+    \end{solution}
+
+    \begin{question}
+        确定满足$x_1+x_2+x_3+x_4=14,0\leq x_i\leq 8,x_i\in\mathbb{N},i=1,2,3,4$的四元组$(x_1,x_2,x_3,x_4)$的个数。
+    \end{question}
+
+    \begin{solution}
+        \begin{align*}
+        \text{设}I&=\{(x_1,x_2,x_3,x_4)|x_1+x_2+x_3+x_4=14,x_i\in\mathbb{N},i=1,2,3,4\},\\
+        A_k&=\{(x_1,x_2,x_3,x_4)|x_1+x_2+x_3+x_4=14,x_k\geq 9, x_i\in\mathbb{N},i=1,2,3,4\}
+        \end{align*}\par 
+        于是有$|I|=\binom{17}{3},|A_k|=\binom{8}{3},k=1,2,3,4$\par 
+        注意到：$A_k$中任意两个集合相交为空，（此因若存在非空交集，两元素之和已经大于14，其余数不为非负整数，无解），于是由容斥原理有：
+        \begin{align*}
+            |\overline{A_1}\cap \overline{A_2}\cap \overline{A_3}\cap \overline{A_4}|=|I|-\sum_{i=1}^4|A_i|=\binom{17}{3}-4\binom{8}{3}=456
+        \end{align*}
+    \end{solution}
+
+    \begin{question}
+        $1$到$1000$之间有多少个素数？
+    \end{question}
+
+    \begin{solution}
+        注意到$\lceil \sqrt{1000}\rceil=32$，且若某数为合数，则可分解为两个或以上素数乘积，则必含一个小于32的素因子。\par 
+        因此首先考虑不被小于32的素数2,3,5,7,11,13,17,19,23,29,31(共11个)整除的数，不妨将这些数编码为$a_1,\cdots,a_{11}$,设$I=\{n|1\leq n\leq 1000\}
+        ,A_i=\{n|n=k\cdot a_i,k\in\mathbb{Z}\},i=1,2,\cdots,11$\par 
+        于是$|I|=1000,|A_i|=\lfloor \frac{1000}{a_i}\rfloor,|\bigcap_{p=1}^mA_{tp}|=\lfloor \frac{10000}{\Pi_{p=1}^ma_{tp}}\rfloor\quad(1\leq t1<t2<\cdots<tm\leq 11)$\par 
+        于是由容斥原理得：
+        \[|\bigcap_{i=1}^{11}\overline{A_i}|=|I|+\sum_{m=1}^{11}(-1)^m\sum_{1\leq t1<\cdots<tm\leq 11}|\bigcap_{p=1}^mA_{tp}|  \]\par 
+        考虑最开始被自身所整除的11个素数以及未被以上素数整除但并非素数的1，则有1000以内素数数为$|\bigcap_{i=1}^{11}\overline{A_i}|+11-1=168$
+    \end{solution}
+
+    \begin{question}
+        确定$\{1,2,\ldots,n\}$的排列中恰有$k$个整数在它自然位置上的排列数。
+    \end{question}
+
+    \begin{solution}
+        首先考虑对r个数，均不在自然位置的情况（全错位排列），设$I$表示所有可能排列，$A_i$表示第i个数正确排列的所有可能情形，则有$|I|=r!,|A_i|=(r-1)!,|\bigcap_{p=1}^mA_{tp}|=(r-m)!,(1\leq t1<\cdots<tm\leq r)$;\par 
+        于是由容斥定理得：
+        \begin{align*}
+            |\bigcap_{i=1}^{r}\overline{A_i}|&=|I|+\sum_{m=1}^{r}(-1)^m\sum_{1\leq t1<\cdots<tm\leq r}|\bigcap_{p=1}^mA_{tp}|\\
+            &=\sum_{k=0}^r(-1)^k\binom{r}{k}(r-k)!=r!\sum_{k=0}^r\frac{(-1)^k}{k!}
+        \end{align*}
+        其次考虑所求情况，即首先选择k整数放好，然后剩余n-k个数全错位排列的情况，将上式$r$用$n-k$代入可得，满足条件排列数为\par 
+        \[\binom{n}{k}(n-k)!\sum_{t=0}^{n-k}\frac{(-1)^t}{t!}=\frac{n!}{k!}\sum_{t=0}^{n-k}\frac{(-1)^t}{t!}\sim\frac{n!}{e\cdot k!}\]
+        
+
+    \end{solution}
+    \begin{question}
+        多重集合$\{3\cdot a,4\cdot b,2\cdot c,1\cdot d\}$的圆排列中，满足不连续出现$3$个$a$、并且不连续出现$4$个$b$、也不连续出现$2$个$c$的有多少种？例如：所求循环排列中出现$aaa$不合法，但出现$aaba$是合法的。
+    \end{question}
+
+    \begin{solution}
+        设$I$表示所有可能圆排列的集合，$A$表示出现连续三个a的圆排列集合，$B$表示出现连续4个b的圆排列集合，$C$表示出现连续2个c的圆排列集合。\par 
+        则由多重集合圆排列公式有：$|I|=\frac{9!}{3!4!2!}=1260$,若确定连续3个a情况，则将3个连续的a作为一个元素参与多重集合圆排列，故有$|A|=\frac{7!}{4!2!}=105$\par 
+        同理有$|B|=\frac{6!}{3!2!}=60,|C|=\frac{8!}{3!4!}=280,|A\cap B|=\frac{4!}{2!}=12,|A\cap C|=\frac{6!}{4!}=30,|B\cap C|=\frac{5!}{3!}=20,|A\cap B\cap C|=3!=6$\par 
+        由容斥原理则有：
+        \begin{align*}
+            |\overline{A}\cap\overline{B}\cap \overline{C}|=|I|-|A|-|B|-|C|+|A\cap B|+|A\cap C|+|B\cap C|-|A\cap B\cap C|=871
+        \end{align*}\par 
+        故合法排列数共有871种。
+    \end{solution}
+
+    \begin{question}
+        求下列斯特林数的表达式:
+        \begin{itemize}
+            \item [a)]  $S_1(n,3)$; \hskip5em b) $S_2(n,n-3)$.
+        \end{itemize}
+    \end{question}
+
+    \begin{solution}
+        a.从组合排列意义推导，则$S_1(n,3)$表示n个数恰好形成3个无序圆排列的方法数。首先考虑3个圆排列有序，则可能方法数为
+        \begin{align*}
+            &\sum_{i\geq 1,j\geq 1,i+j\leq n-2}\binom{n}{i}\binom{n-i}{j}(i-1)!(j-1)!(n-i-j-1)!\\
+            &=n!\sum_{i\geq 1,j\geq 1,i+j\leq n-2}\frac{1}{i\cdot j\cdot (n-i-j)}
+        \end{align*}\par 
+        考虑圆排列无序，只需除以三个圆排列进行排列的方法数$3!$即可，故所求为：
+        \[S_1(n,3)=\frac{n!}{6}\sum_{i\geq 1,j\geq 1,i+j\leq n-2}\frac{1}{i\cdot j\cdot (n-i-j)}\]
+        ~\par 
+        b.从组合排列意义推导，则$S_2(n,n-3)$表示n个数恰好位于n-3个无序非空集合的方法数，则可分为三种情形：\par 
+        $\textcircled{1}$1个集合有4个元素，其余集合均只有1个元素，对应方法数为$\binom{n}{4}$\par
+        $\textcircled{2}$1个集合有3个元素，1一个集合有2个元素，其余集合均只有1个元素,对应方法数为$\binom{n}{3}\binom{n-3}{2}=10\binom{n}{5}$\par 
+        $\textcircled{3}$3个集合有2个元素，其余集合均只有1个元素，对应方法数为$\frac{1}{3!}\binom{n}{2}\binom{n-2}{2}\binom{n-4}{2}=15\binom{n}{6}$\par 
+        故所求的可能方法数为：
+        \[S_2(n,n-3)=\binom{n}{4}+10\binom{n}{5}+15\binom{n}{6}\]
+    \end{solution}
+
+    \begin{question}
+        证明当$n\ge 2$时，
+        \begin{equation*}
+            \sum_{i=0}^{\lfloor \frac{n}{2}\rfloor}S_1(n,2i)=\sum_{i=0}^{\lfloor \frac{n}{2}\rfloor}S_1(n,2i+1).
+        \end{equation*}
+    \end{question}
+
+    \begin{proof}
+        由第一类斯特林数公式，有$x^{\overline{n}}=\sum_{m=0}^nS_1(n,m)x^m \qquad\qquad\qquad(1)$\par 
+        注意到，题目等式左侧即是（1）式右侧偶此项系数之和，题目等式右侧即是（1）式右侧奇次项系数之和，因此令$x=-1$，则（1）式可化为：
+        \[(-1)^{\overline{n}}=\sum_{i=0}^{\lfloor \frac{n}{2}\rfloor}S_1(n,2i)-\sum_{i=0}^{\lfloor \frac{n}{2}\rfloor}S_1(n,2i+1)\]\par 
+        注意到：当$n\geq 2$时，$(-1)^{\overline{n}}=0$,将上式移项即为所求结果。
+    \end{proof}
+\end{document}

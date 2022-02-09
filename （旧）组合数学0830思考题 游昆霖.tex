@@ -1,0 +1,76 @@
+\documentclass[fontset=windows,11pt]{article}
+\usepackage[a4paper]{geometry}
+\geometry{left=2.0cm,right=2.0cm,top=2.5cm,bottom=2.5cm}
+
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath,amsfonts,graphicx,amssymb,bm,amsthm}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage[noend]{algpseudocode}
+\usepackage{mathtools}
+
+\newtheorem{question}{\hskip 1.7em}
+
+\newenvironment{solution}{{\noindent\hskip 2em \bf 解 \quad}}
+
+\renewenvironment{proof}{{\noindent\hskip 2em \bf 证明 \quad}}{\hfill$\qed$\par\vskip1em}
+
+\begin{document}
+    \begin{center}
+        {\Large \bf 组合数学08.30思考题}\\
+    \end{center}
+    \begin{kaishu}
+        \hfill 提交者：游昆霖 \quad 学号：2020K8009926006
+    \end{kaishu}
+    \begin{question}
+        现有 A,B两人分一个蛋糕，A和B对这个蛋糕的不同部分有自己的偏好。试问能否将这个蛋糕
+    分成两份，A,B各拿一份，并且要求 A 拿到的蛋糕在他自己的偏好下不少于整个蛋糕的$\frac{\sqrt{5}-1}{2}$,
+    B拿到的部分在他自己的偏好下不少于整个蛋糕的$\frac{3-\sqrt{5}}{2}$。
+
+
+        问题形式化表述如下：现有非负整数$f_1.f_2$满足
+        \[\int_0^1f_i(x)dx=1(i=1,2)\]
+        是否存在区间[0,1]的子集A,B使得$A\bigcup B=[0,1],A\bigcap B=\varnothing$且\\
+        \[ \int_Af_1(x)dx \geq \frac{\sqrt{5}-1}{2}, \quad \int_Bf_2(x)dx \geq \frac{3-\sqrt{5}}{2} ?\]
+        试为这两人的要求设计一个算法，或证明划分不存在。
+    \end{question}
+    \begin{solution}
+       
+        \begin{center}
+        首先，注意到：黄金分割率为斐波那契数列递推关系的特征根，具体如下：\\   
+        设斐波那契数列第n项为$F_n$，则 $F_1=F_2=1,F_{n+1}=F_n+F_{n-1}$;\\
+        由特征根方程可得：$F_n=\alpha(\frac{1+\sqrt{5}}{2})^n+\beta(\frac{1-\sqrt{5}}{2})^n$\\
+        结合$F_1,F_2$可确定$\alpha=\frac{1}{\sqrt{5}},\beta=-\frac{1}{\sqrt{5}}$;\\
+        当$n\gg 1$时,$\beta$项衰减震荡消失，即可得$\frac{F_n}{F_{n+1}}\rightarrow \frac{\sqrt{5}-1}{2}$；\\
+        根据以上性质，可确定分蛋糕算法如下：
+        \end{center}
+    \end{solution}
+    \begin{algorithm}
+        \caption{Divide cake by golden ratio}
+    \textbf{输入}：$f_1(x) f_2(x) \backslash\backslash$ A和B对应的蛋糕函数 \\
+    \textbf{输出}：n 满足黄金分割比的分割蛋糕方法\\
+    \textbf{function} Divide（ ）
+  
+    \qquad $F_1\leftarrow 1,F_2\leftarrow 1,n\leftarrow 1$;
+
+    \qquad \textbf{while} true \textbf{do}
+ 
+    \qquad\qquad Let $0=x_1<x_2<\cdots <x_{F_{n+1}+1}=1,$s.t.$\int_{x_1}^{x_2}f_1(x)dx=\cdots=\int_{x_{F_{n+1}}}^{x_{F_{n+1}+1}}f_1(x)dx=\frac{1}{F_{n+1}}$ 
+
+    \qquad\qquad $\exists 0\leq x_{i_1}<\cdots<x_{i_{F_n+1}}\leq 1,B=\bigcup_{k=1}^{F_n}[x_{i_k},x_{i_{k+1}}],$s.t. $\int_Bf_2(x)$取得最大值;
+    
+    \qquad\qquad $\backslash \backslash$ A将蛋糕按自己价值标准平均分割为$F_{n+1}$块；B取其中对自己价值较大的$F_n$块；
+
+    \qquad\qquad \textbf{if} $\int_Bf_2(x) \geq \frac{3-\sqrt{5}}{2}$ \textbf{then} break；$\backslash\backslash$ 若B所取蛋糕满足条件，跳出循环
+
+    \qquad\qquad \textbf{else} $n\leftarrow n+1, F_{n+1}\leftarrow F_n+F_{n-1}$
+        
+    \qquad\qquad \textbf{end if}
+
+    \qquad\textbf{end while}
+
+    \qquad\textbf{return} n \\
+    \textbf{end function}
+    \end{algorithm}
+    注：由上述斐波那契前后两项比值趋于黄金分割比可知，该算法进行下去，最终能求得满足题意的解法。    
+\end{document}
